@@ -1,0 +1,15 @@
+{
+    "apps" : [
+        {
+            "name" : "rich-panel-task",
+            "script": "server.js",
+            "exec_mode": "cluster",
+            "instances" : 1,
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "out_file": "/dev/null",
+            "log_date_format": "YYYY-MM-DD HH:mm:ss"
+        }
+    ]
+}

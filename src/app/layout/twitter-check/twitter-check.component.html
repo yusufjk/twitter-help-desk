@@ -1,0 +1,30 @@
+<!-- <div>
+  <div class="alert alert-{{messageAlertType}}">
+    {{message}}
+  </div>
+</div> -->
+<div class="parent">
+  <div *ngIf="loading">
+    Loading..
+  </div>
+  <div *ngIf="!loading">
+    <div class="flex-container top-bar">
+      <div class="login-box-parent">
+        <div class="login-logo">
+          <img height="70" width="70" src="{{apiUrl}}/new/favicon.ico" />
+        </div>
+        <div class="error-message">
+          <div class="alert-info-new">
+            {{message}}
+          </div>
+        </div>
+        <div class="connect-twitter">
+          <button class="btn btn-primary" (click)="connectToTwitter()">
+            <span><img width="32" height="32" src="{{apiUrl}}/new/twitter4.png" /></span>
+            Connect With Twitter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

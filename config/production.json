@@ -1,0 +1,20 @@
+{
+  "serverPort": 3333,
+  "jwtSecret": "richP@nelT@sk#323",
+  "mongodb": {
+    "uri": "mongodb://root:venkat123@ds161074.mlab.com:61074/rich-panel-task"
+  },
+  "twitter": {
+    "consumerKey": "X5lm1rk9ZW6IFSH6ZAVSTvxI2",
+    "consumerSecret": "ZJGupaWlqh8bTQAXlkpaXbu6X6RIIFA9Hdb1VD9Xnx4NGzyEcE",
+    "tempToken": "889382084338253824-ta9FzRU4qZzMRmllvELKL0Kwwi8HR2t",
+    "tempTokenSecret": "eXu8owp5p4lBihYDhR8OBqzxv2jxoB5WR4PJRC16PI7Fz",
+    "oauth": {
+      "token": "cAh0TAAAAAAA9UCkAAABaGapBOg",
+      "tokenSecret": "hACk11dsJwubX3FRRHLwV1x9MZJLtQ9Y"
+    }
+  },
+  "displayTwitterMentionsLimit" : 2,
+  "twitterCallbackUrl" : "https://twitter-desk-yusufjk.herokuapp.com/auth/twitter/callback2",
+  "wsUrl" : "ws://twitter-desk-yusufjk.herokuapp.com"
+}

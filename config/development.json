@@ -1,0 +1,20 @@
+{
+  "serverPort": 3333,
+  "jwtSecret": "richP@nelT@sk#323",
+  "mongodb": {
+    "uri": "mongodb://localhost:27017/rich-panel-task"
+  },
+  "twitter": {
+    "consumerKey": "X5lm1rk9ZW6IFSH6ZAVSTvxI2",
+    "consumerSecret": "ZJGupaWlqh8bTQAXlkpaXbu6X6RIIFA9Hdb1VD9Xnx4NGzyEcE",
+    "tempToken": "1085062352918044672-hW2QiiH41JG70NjPFA0vqAOq4B5PKo",
+    "tempTokenSecret": "1Ot8EUfwbjGKjltpZtSh6umnbEMAVDLU2Qo8t7vtJtcE2",
+    "oauth": {
+      "token": "mVNgfQAAAAAA9UCkAAABaGaEkuY",
+      "tokenSecret": "IyOAkuUl6lTe4MmN4Npjk00Nss35kOMI"
+    }
+  },
+  "displayTwitterMentionsLimit" : 10,
+  "twitterCallbackUrl" : "http://localhost:3333/auth/twitter/callback2",
+  "wsUrl" : "ws://localhost:3333/"
+}

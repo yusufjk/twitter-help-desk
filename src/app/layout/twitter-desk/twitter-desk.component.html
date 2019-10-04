@@ -1,0 +1,832 @@
+<!-- <div class="row">
+  <div class="col-md-3">
+    <h4>Users Mentions</h4>
+  </div>
+  <div class="col-md-9">
+    <button (click)="ss()" class="btn btn-info" style="float:right">
+      Refresh
+      <i img-cache img-cache-src (click)="ss()"><img style="width:20px;height: 20px; border-radius: 50% " src="{{apiUrl}}/refresh2.png"></i>
+    </button>
+  </div>
+</div> -->
+<!-- <hr /> -->
+<div class="container left-side" *ngIf="!mentionsData || !mentionsData.length">
+
+  <div class="row">
+    <!-- <div class="" style="margin-left: 19%; z-index: 999; ">
+      <a title="refresh"><i img-cache img-cache-src style="position:fixed;background-color: black;border-radius: 30px;"
+          (click)="ss()"><img style="width: 30px;height: 30px; " src="{{apiUrl}}/refresh.png"></i></a>
+    </div> -->
+    <div class="text-align:center">
+      No mentions present
+    </div>
+  </div>
+</div>
+<!-- <div class="" > -->
+<!-- <div class="row" style="padding: 10px; min-height: 700px; max-height: 700px"> -->
+<div class="pre-left-side-parent">
+  <div class="logos">
+    <div class="nav-logo">
+      <span>
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M27.733 17.594a1.067 1.067 0 1 1-2.133 0V8a1.067 1.067 0 1 1 2.133 0v9.594zm-.372 6.676c-.165.141-4.116 3.457-11.361 3.457-7.245 0-11.196-3.316-11.361-3.457a1.067 1.067 0 0 1 1.386-1.622c.063.052 3.591 2.946 9.975 2.946 6.464 0 9.938-2.914 9.972-2.944a1.067 1.067 0 0 1 1.39 1.62zM4.267 8A1.067 1.067 0 0 1 6.4 8v9.594a1.067 1.067 0 1 1-2.133 0V8zM9.6 5.867a1.067 1.067 0 0 1 2.133 0v14.25a1.067 1.067 0 0 1-2.133 0V5.867zm5.333-.54a1.067 1.067 0 1 1 2.134 0v15.467a1.067 1.067 0 1 1-2.134 0V5.327zm5.334.54a1.067 1.067 0 1 1 2.133 0v14.25a1.067 1.067 0 0 1-2.133 0V5.867zM28 0H4a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo fade">
+      <span>
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M15.997 7h12.996v18H3v-.94a7.07 7.07 0 0 1 3.939-6.65 6.4 6.4 0 0 0 .61-.38c-.05-.08-.15-.21-.15-.21a5 5 0 0 1-1.17-3.18 4.48 4.48 0 0 1 4.449-4.54c.29-.03.58-.03.87 0a4.59 4.59 0 0 1 3.549 5 5 5 0 0 1-1.14 2.7l-.15.2.61.37a6.37 6.37 0 0 1 3.58 5.63h8.997V9H15.997V7zM4.999 23h10.998a4.11 4.11 0 0 0-2.5-3.94c-.79-.49-1.6-1-1.6-2 .043-.52.262-1.01.62-1.39a3.16 3.16 0 0 0 .77-1.76 2.73 2.73 0 0 0-2.09-3 2.239 2.239 0 0 0-.519-.05 2.68 2.68 0 0 0-2.63 2.69c0 .773.28 1.52.79 2.1.356.385.574.878.62 1.4 0 1.05-.82 1.53-1.6 2C6.79 19.68 5 20.57 5 23zm21.995 0h-9.998l.43.14a.68.68 0 0 0 0-.14h9.568zm-7.998-11h2v3h-2v-3zm3.999 0h2v3h-2v-3zm-4 5h2v3h-2v-3zm4 0h2v3h-2v-3z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo fade">
+      <span>
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M30 12.021a2.162 2.162 0 0 1-.565 1.44L15.137 25.56c-.249.254-.582.41-.937.44a1.386 1.386 0 0 1-.984-.447 1.365 1.365 0 0 1-.357-1.014v-4.933c0-2.682.605-7.585 5.041-7.585 1.493 0 2.017.91 2.017 1.631 0 .55-.212 1-1.382 1.761-2.329 1.421-3.66 1.971-3.66 4.613v3.002L27.5 12.391 11.054 7.288l1.805 3.202a.269.269 0 0 1-.081.36l-1.22.62a.213.213 0 0 1-.343-.1L9.108 6.929a1.283 1.283 0 0 1 .221-1.381c.388-.41.952-.608 1.513-.53L28.83 10.59A1.674 1.674 0 0 1 30 12.021zM2.775 21.137a.583.583 0 0 1-.564-.49l-.192-.911a.686.686 0 0 1 .07-.5.626.626 0 0 1 .414-.29l7.673-2.002h.061a.594.594 0 0 1 .565.5l.201.941c.06.151.06.32 0 .47a.625.625 0 0 1-.413.3l-7.683 2.002-.132-.02zM5.6 15.493a.583.583 0 0 1-.545-.47l-.191-1a.64.64 0 0 1 .423-.771l4.205-1.1h.07a.602.602 0 0 1 .545.46l.191 1a.679.679 0 0 1-.332.71L5.7 15.483l-.101.01z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo active-logo">
+      <span>
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13 22c0-1.65.59-2.83 3-3h4c2 0 5.06-2 5.06-5 0-4-3.06-6-9.06-6-6.5 0-9 1.61-9 6 0 3.25 2 3.45 3 4l-1 2a6.25 6.25 0 0 1-4-6c0-5.16 4-8 11-8s11 2.85 11 8c0 1.46-1 7-8 7-2 0-2 1-2 2.81v1.47c0 .54-.55.72-1 .72-1.29 0-3-2-3-4zm8-9H11v-2h10v2zm-4 4h-6v-2h6v2z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo fade">
+      <span>
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8.998 25.995A2.397 2.397 0 0 1 7 23.997V6.017h1.998v17.98l12.796.09c1.189 0 1.189.15 1.189-1.089V9.013c0-.939 0-1.059-.999-1.059h-6.993l-3.995-.939 4.994.24a14.771 14.771 0 0 0 1.509 4.835c.03.087.05.177.06.27 0 0-.2.649-.57.649-.14 0-.819-.93-.999-1l-1.798-.718-.41 2.297a.61.61 0 0 1-.569.4.54.54 0 0 1-.5-.25 14.135 14.135 0 0 1-1.717-6.723c.089-.51.488-.91.999-.999h9.99a2.717 2.717 0 0 1 2.996 2.997v13.915a2.837 2.837 0 0 1-2.997 3.067H8.998zm1.998-3.996v-1.998h5.993V22h-5.993zm0-3.996v-1.997h9.99v1.997h-9.99z">
+          </path>
+        </svg>
+
+      </span>
+    </div>
+
+    <!-- <div class="" style="min-height:30%">
+      &nbsp;
+    </div> -->
+    <!-- 12 -->
+
+    <div class="normal-logo2 fade" style="bottom: 26%; position: absolute;">
+      <span>
+        <svg width="27" height="27" xmlns="http://www.w3.org/2000/svg">
+          <path class="left-nav__icon"
+            d="M15 19.06a9.2 9.2 0 0 1-4.94-1.41.77.77 0 0 1-.23-1.07.76.76 0 0 1 1.06-.24 7.89 7.89 0 0 0 8.22 0 .76.76 0 0 1 1.06.24.77.77 0 0 1-.23 1.07A9.2 9.2 0 0 1 15 19.06zM17 21l5 2 2 1v.38a1 1 0 0 1-1.45.9L16 23H8.89A2.89 2.89 0 0 1 6 20.11V8.89A2.89 2.89 0 0 1 8.89 6h12.22C22.71 6 24 7.29 24 7.89V24l-2-1V9.22A1.22 1.22 0 0 0 20.78 8H9.22A1.22 1.22 0 0 0 8 9.22v10.56c0 .674.546 1.22 1.22 1.22H17z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo2 fade" style="bottom: 19.5%; position: absolute;">
+      <span>
+        <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+          <path class="left-nav__icon"
+            d="M8 20v.78c0 .674.546 1.22 1.22 1.22h11.56A1.22 1.22 0 0 0 22 20.78V20H8zm0-2h14V9.22A1.22 1.22 0 0 0 20.78 8H9.22A1.22 1.22 0 0 0 8 9.22V18zM21.11 6A2.89 2.89 0 0 1 24 8.89v12.22A2.89 2.89 0 0 1 21.11 24H8.89A2.89 2.89 0 0 1 6 21.11V8.89A2.89 2.89 0 0 1 8.89 6h12.22zM18 16h-6a3 3 0 0 1 0-6h6a3 3 0 0 1 0 6zm-6-2h6a1 1 0 0 0 0-2h-6a1 1 0 0 0 0 2z">
+          </path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="normal-logo2 fade" style="bottom: 13%; position: absolute;">
+      <span>
+        <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+          <path class="left-nav__icon"
+            d="M24 20a1 1 0 0 1-1 1h-2v2a1 1 0 1 1-2 0v-2h-2a1 1 0 1 1 0-2h2v-2a1 1 0 1 1 2 0v2h2a1 1 0 0 1 1 1zM22.5 6A1.5 1.5 0 0 1 24 7.5v5a1.5 1.5 0 0 1-1.5 1.5h-5a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 17.5 6h5zM18 12h4V8h-4v4zm-5.5 4a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 6 22.5v-5A1.5 1.5 0 0 1 7.5 16h5zM8 22h4v-4H8v4zm4.5-16A1.5 1.5 0 0 1 14 7.5v5a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 6 12.5v-5A1.5 1.5 0 0 1 7.5 6h5zM8 12h4V8H8v4z">
+          </path>
+        </svg>
+      </span>
+
+    </div>
+
+    <div class="normal-logo2 fade" style="bottom: 6.5%; position: absolute;">
+      <span>
+
+        <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+          <path class="left-nav__icon"
+            d="M24 20a1 1 0 0 1-1 1h-2v2a1 1 0 1 1-2 0v-2h-2a1 1 0 1 1 0-2h2v-2a1 1 0 1 1 2 0v2h2a1 1 0 0 1 1 1zM22.5 6A1.5 1.5 0 0 1 24 7.5v5a1.5 1.5 0 0 1-1.5 1.5h-5a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 17.5 6h5zM18 12h4V8h-4v4zm-5.5 4a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 6 22.5v-5A1.5 1.5 0 0 1 7.5 16h5zM8 22h4v-4H8v4zm4.5-16A1.5 1.5 0 0 1 14 7.5v5a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 6 12.5v-5A1.5 1.5 0 0 1 7.5 6h5zM8 12h4V8H8v4z">
+          </path>
+        </svg>
+      </span>
+
+    </div>
+
+    <div title="logout" class="normal-logo2 fade" style="bottom:3px !important; position: absolute;">
+      <span>
+        <a href="/logout">
+          <img width="32" height="32" src="{{apiUrl}}/new/logout3.png">
+        </a>
+
+        <!-- <svg class="ram" version="1.0" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+          viewBox="0 0 1300.000000 1300.000000" preserveAspectRatio="xMidYMid meet">
+          <g transform="translate(0.000000,1300.000000) scale(0.100000,-0.100000)" stroke="none">
+            <path d="M2215 12233 c-216 -26 -400 -96 -565 -216 -74 -53 -616 -597 -671 -672 -240 -331 -284 -773 -114 -1143 78 -167 125 -224 544 -645 238 -239 401 -395 409 -392 8 3 10 0 6 -6 -4 -7 495 -513 1199 -1218 663 -663 1216 -1218 1227 -1234 79 -101 79 -313 0 -414 -11 -16 -742 -750 -1624 -1633 -1703 -1705 -1671 -1671 -1756 -1852 -172 -368 -138 -781 93 -1128 54 -82 590 -624 688 -697 128 -95 309 -174 469 -204 98 -19 329 -17 428 4 92 20 213 62 294 103 151 76 161 86 1813 1736 886 884 1625 1618 1643 1631 83 62 250 75 357 28 42 -19 296 -268 1665 -1635 1090 -1089 1640 -1632 1693 -1671 292 -212 700 -271 1037 -150 214 78 286 131 618 460 293 289 363 370 432 498 207 383 177 858 -75 1204 -39 53 -576 597 -1656 1678 -879 880 -1609 1615 -1622 1633 -62 83
+-75 250 -28 357 19 42 270 298 1645 1675 1721 1724 1681 1682 1766 1863 175
+374 132 828 -110 1152 -21 28 -170 183 -331 346 -298 300 -364 356 -504 426
+-368 185 -807 155 -1152 -78 -61 -41 -378 -352 -1415 -1388 -1125 -1123 -1335
+-1337 -1326 -1350 10 -13 10 -14 -2 -4 -12 11 -64 -36 -304 -276 -336 -333
+-326 -326 -491 -326 -155 1 -153 -1 -482 327 -159 159 -286 277 -292 274 -6
+-4 -9 -2 -6 6 3 8 -539 556 -1332 1349 -1436 1434 -1395 1396 -1585 1484 -175
+80 -408 120 -583 98z" />
+          </g>
+        </svg> -->
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<div class="left-side-parent"
+  [ngClass]="{'width-extend': widthExtend === true , 'width-de-extend': widthDeExtend === true, 'left-bar-margin-left' : ((widthExtend === false && widthDeExtend === false) || widthExtend === true)  }">
+  <div class="left-side-top">
+    <div class="row assign-panel">
+      <div class="col-md-1 three-panel-row show-pointer" (click)="togglePreLeftBar()">
+        <!-- <div class="col-md-1 three-panel-row show-pointer"> -->
+        <svg class="interface-icon o__standard" width="16" height="16" viewBox="0 0 16 16"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M2 12h11a1 1 0 0 1 0 2H2a1 1 0 0 1 0-2zm0-5h9a1 1 0 0 1 0 2H2a1 1 0 1 1 0-2zm0-5h12a1 1 0 0 1 0 2H2a1 1 0 1 1 0-2z">
+          </path>
+        </svg>
+      </div>
+      <div class="assign-panel-data-parent row">
+        <div class="col-md-4 offset-md-2" class="assign-panel-data">
+          Unassigned
+        </div>
+
+        <div class="col-md-1" class="assign-panel-data">
+          <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            viewBox="0 0 16 16">
+            <path d="M4 6l4 4 4-4H4z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="left-side-middle">
+    <div class="row assign-panel2">
+      <div class="col-md-1">
+        <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          viewBox="0 0 16 16">
+          <path
+            d="M15 8.482v4.679a.87.87 0 0 1-.875.839H1.875A.867.867 0 0 1 1 13.179V9.045c0-.048.024-.149.071-.304l2.554-6.205A.887.887 0 0 1 4.429 2h7.142a.84.84 0 0 1 .804.554l2.554 6.098c.016.05.03.183.04.347.022.376.031-.579.031-.517zm-1.84.517c.284-.002.493-.204.394-.49-.052-.15-.755-1.898-2.108-5.241A.474.474 0 0 0 11 3.002L5 3c-.289 0-.409.118-.498.268-.09.15-1.925 4.935-2.038 5.241-.113.307.123.49.34.49h1.625c.894-.005.988.41.97 1.01v.135c0 .455.141.836.587.872l3.968-.009c.425-.028.546-.507.546-1.007.028-.608.308-1.002 1.071-1h1.59zM5.5 5h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1zm0 2h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1z"
+            fill-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="col-md-2" class="assign-panel-data2">
+        <b>Open</b> <span class="unread-count"> &nbsp;{{totalCount}}</span>
+      </div>
+
+      <div class="col-md-2" class="assign-panel-data2">
+        <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          viewBox="0 0 16 16">
+          <path d="M4 6l4 4 4-4H4z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="left-side" *ngIf="mentionsData && mentionsData.length">
+    <!-- <div class="" style="margin-left: 92%; z-index: 999; ">
+    <a title="refresh"><i img-cache img-cache-src style="position:fixed;background-color: black;border-radius: 30px;"
+        (click)="ss()"><img style="width: 30px;height: 30px; " src="{{apiUrl}}/refresh.png"></i></a>
+  </div> -->
+    <div class="newDiv" *ngFor="let mention of mentionsData; let i = index"
+      [class.activeDiv]="inReplyIdString === mention.id_str" (click)="inReplyDataAdd(i, mention.id_str)">
+      <div class="row">
+        <div class="col-md-2">
+          <img img-cache img-cache-src class="profile-pic" src="{{mention.user.profile_image_url_https}}" />
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-9">
+              <b class="mention-name">{{mention.user.name}}</b> 
+              <span *ngIf="mention.newMentionsCount && mention.newMentionsCount !== 0" class="f-s-13 f-w-450 black-4" style="background-color:#DC143C; color: white; border-radius: 50%; margin-left: 3px;
+              padding-right: 3px;"> {{mention.newMentionsCount}}</span>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+              <span class="mention-date">
+                {{dateConvertIntoShortFormat(mention.created_at)}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 mention-data">
+          {{truncateChar(mention.full_text)}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="middle-side-parent"
+  [ngClass]="{'width-extend-for-middle': widthExtend === true , 'width-de-extend-for-middle': widthDeExtend === true, 'middle-bar-margin-left-in-extend' : ((widthExtend === false && widthDeExtend === false) || widthExtend === true), 'middle-bar-margin-left-in-de-extend' : widthDeExtend === true, 'width-for-middle-in-extend' : ((widthExtend === false && widthDeExtend === false) || widthExtend === true), 'width-for-middle-in-de-extend' : widthDeExtend === true  } ">
+
+  <div class="middle-side-top">
+    <div class="middle-side-top-body-parent">
+      <div class="middle-side-top-body1 black-4 f-w-450 f-s-16">
+        {{name}}
+      </div>
+      <div class="middle-side-top-body2">
+        <div class="">
+          <span title="refresh mention replies" *ngIf="inReplyIdStringPresent" class="show-pointer m-l-3"
+            style="padding-right: 8px;">
+            <a (click)="refreshRepliesData()"> <img src="{{apiUrl}}/new/refresh.png" width="16" height="16" /> </a>
+          </span>
+          <span class="show-pointer m-l-3">
+            <svg class="interface-icon o__standard" width="16" height="16" viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8 16c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2zm0-6c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2zm0-6c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2z">
+              </path>
+            </svg>
+          </span>
+          &nbsp;
+          <span class="show-pointer m-l-3">
+            <img src="{{apiUrl}}/new/user2.png" />
+          </span>
+          &nbsp;
+          <span class="show-pointer m-l-3 f-s-12">
+            You
+            <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+              viewBox="0 0 16 16">
+              <path d="M4 6l4 4 4-4H4z"></path>
+            </svg>
+          </span>
+          &nbsp;
+          <span class="show-pointer m-l-3">
+            <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+              <path
+                d="M7.99 3.96l.622 2.22.022.078.032.075a1.528 1.528 0 0 0 1.406.956h2.205l-1.666 1.1a1.457 1.457 0 0 0-.74 1.308 1.314 1.314 0 0 0 .018.217v.053l.065.189.776 2.277-1.799-1.46a1.502 1.502 0 0 0-1.865.017l-1.713 1.466.676-2.203a1.332 1.332 0 0 0 .1-.519v-.031l-.002-.031a1.635 1.635 0 0 0-.53-1.126l-.071-.066-.08-.053-1.734-1.138h2.214a1.483 1.483 0 0 0 1.33-.832l.022-.044.039-.077.012-.035.019-.043.022-.079.62-2.219m-.012-2.64a.677.677 0 0 0-.336.089.822.822 0 0 0-.268.375l-.07.179-1.09 3.893a.218.218 0 0 1-.013.03l-.022.042a.278.278 0 0 1-.253.162H2.16c-.303 0-.839.143-.839.66l.001.003a.789.789 0 0 0 .446.696L4.787 9.43a.444.444 0 0 1 .143.304c0 .035 0 .053-.018.071l-1.18 3.839a1.324 1.324 0 0 0-.054.357.633.633 0 0 0 .555.661h.07a.97.97 0 0 0 .607-.25l2.946-2.518a.258.258 0 0 1 .162-.036.229.229 0 0 1 .142.036l3.126 2.536a.96.96 0 0 0 .57.25h.019a.638.638 0 0 0 .607-.661.821.821 0 0 0-.071-.375L11.09 9.769v-.036c-.018 0-.018-.018-.018-.036a.26.26 0 0 1 .143-.268l3-1.982a1.174 1.174 0 0 0 .375-.411.612.612 0 0 0 .089-.304c0-.268-.179-.446-.536-.607-.16-.018-.267-.036-.321-.036h-3.75a.347.347 0 0 1-.304-.232l-1.09-3.893-.054-.179a.37.37 0 0 0-.107-.179.555.555 0 0 0-.535-.286z">
+              </path>
+            </svg>
+          </span>
+          &nbsp;
+          <span class="show-pointer m-l-3">
+            <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+              viewBox="0 0 16 16">
+              <path
+                d="M1.339 7.982c0-3.661 3-6.661 6.661-6.661 1.839 0 3.411.643 4.732 1.946 1.304 1.321 1.946 2.893 1.946 4.714 0 3.696-2.982 6.696-6.679 6.696-1.839 0-3.411-.661-4.696-1.982-1.304-1.286-1.964-2.857-1.964-4.714zm1.661 0c0 2.732 2.268 5 5 5 2.786 0 5-2.214 5-5 0-2.804-2.196-5-5-5-2.768 0-5 2.232-5 5zm4.321.268V4.643c0-.143.125-.286.286-.286h.714c.161 0 .286.143.286.286v3.054l2.643 1.804c.089.054.143.107.143.196a.287.287 0 0 1-.054.161l-.393.625c-.054.054-.107.107-.196.125h-.054l-.143-.036-3.071-2.071-.071-.054a.285.285 0 0 1-.089-.196z">
+              </path>
+            </svg>
+          </span>
+          &nbsp;
+          <span class="show-pointer m-l-3">
+            <svg class="interface-icon o__standard" width="16" height="16" viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13.933 3.09a.35.35 0 0 0-.495.026l-7.236 8.012-3.757-3.393a.35.35 0 0 0-.495.025l-.86.951a.35.35 0 0 0 .026.495l4.96 4.48a.34.34 0 0 0 .17.082.346.346 0 0 0 .34-.107l8.324-9.217a.35.35 0 0 0-.026-.494l-.951-.86z">
+              </path>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="middle-side" (click)="removeNewMentionCount()">
+    <div class="tweet-replies" *ngIf="!inReplyIdStringPresent">
+      Please Select any mention.
+    </div>
+    <div class="tweet-replies" *ngIf="inReplyIdStringPresent">
+      <div *ngIf="replyDataChecking">
+        {{replyDataMessage}}
+        <img img-cache img-cache-src class="loading" src="{{apiUrl}}/loading2.gif" />
+      </div>
+      <div *ngIf="!replyDataChecking">
+
+        <ol class="discussion">
+          <li *ngFor="let mention of inReplyData; let i = index">
+            <!-- [ngClass]="{'other': inReplyUserScreenName == mention.user.screen_name , 'self':inReplyUserScreenName != mention.user.screen_name }"> -->
+            <div class="messages-flex-parent">
+              <!-- <div class="messages-flex"
+                [ngClass]="{'other': inReplyUserScreenName == mention.user.screen_name , 'self':inReplyUserScreenName != mention.user.screen_name }"> -->
+              <div class="messages-flex"
+                [ngClass]="{'other': userData.screen_name !== mention.user.screen_name , 'self': userData.screen_name === mention.user.screen_name }">
+                <div class="avatar">
+                  <img img-cache img-cache-src class="profile-pic2" height="33.5px"
+                    src="{{mention.user.profile_image_url_https}}" />
+                </div>
+
+                <!-- displaying loading -->
+                <div id="replay-status-{{i}}" *ngIf="mention.replyMessageFromTextArea">
+                  <span *ngIf="postTweetChecking" style="padding: 10px;">
+                    <span *ngIf="!postTweetMessage">
+                      <img height="32" width="32" src="{{apiUrl + '/spinner.gif'}}" />
+                    </span>
+                    <span *ngIf="postTweetMessage && !postTweetStatus">
+                      <img height="32" width="32" src="{{ apiUrl + '/failure.jpg'}}" />
+                    </span>
+                    <span *ngIf="postTweetMessage && postTweetStatus">
+                      <img height="22" width="22" src="{{apiUrl + '/success.png'}}" />
+                    </span>
+                    <!-- <img height="40" width="40"
+                      src="{{postTweetMessage ? (postTweetStatus ? (apiUrl + '/success.png') : (apiUrl + '/failure.jpg')) : (apiUrl + '/spinner.gif')}}" /> -->
+                  </span>
+                </div>
+
+                <div class="messages">
+                  <p [innerHTML]="convertData(mention.full_text) | linkify"></p>
+                </div>
+
+              </div>
+              <div style="display: flex"
+                [ngClass]="{'others-messages-date': inReplyUserScreenName == mention.user.screen_name , 'self-messages-date':inReplyUserScreenName != mention.user.screen_name }">
+                <div class="avatar" style="visibility: hidden;">
+                  <img img-cache img-cache-src class="profile-pic2" height="33.5px"
+                    src="{{mention.user.profile_image_url_https}}" />
+                </div>
+                <span>
+                  {{dateConvertIntoShortFormat(mention.created_at)}}
+                </span>
+              </div>
+              <!-- <div class="messages-flex-date">
+                1d
+              </div> -->
+            </div>
+
+            <!-- <div class="messages-flex"
+              [ngClass]="{'other': inReplyUserScreenName == mention.user.screen_name , 'self':inReplyUserScreenName != mention.user.screen_name }">
+
+              <div
+                [ngClass]="{'other-display-date': inReplyUserScreenName == mention.user.screen_name , 'self-display-date':inReplyUserScreenName != mention.user.screen_name }">
+                {{dateConvertIntoShortFormat(mention.created_at)}}
+              </div>
+            </div> -->
+          </li>
+        </ol>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- <div *ngIf="inReplyIdStringPresent">
+    <div class="middle-side-bottom">
+      <div class="row ">
+        <div class="col-md-1">
+          <div class="row">
+            <div class="col-md-12">
+              <b> &nbsp; &nbsp;Reply:</b>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              {{totalAvailableCharacters}}/{{totalCharacters}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <form #ss="ngForm">
+            <div class="form-group col-md-12">
+              <textarea rows="3" cols="200" (keypress)="calculateCharacters()" type="message"
+                [(ngModel)]="twitter.twitterText" name="email" required class="form-control" placeholder="Enter reply">
+                  </textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-1" title="Send" style="padding: 10px; margin-top: 10px; max-height: 5%; max-width: 5%;">
+          <a (click)="postTweet()"><img height="40" width="40" src="{{apiUrl}}/send.png" /></a>
+        </div>
+        <div *ngIf="postTweetChecking" class="col-md-1"
+          style="padding: 10px; margin-top: 10px; margin-left: 3%; max-height: 5%; max-width: 5%;">
+          <a (click)="postTweet()"><img height="50" width="50"
+              src="{{postTweetMessage ? (postTweetStatus ? (apiUrl + '/success.png') : (apiUrl + '/failure.jpg')) : (apiUrl + '/loading2.gif')}}" /></a>
+        </div>
+
+      </div>
+
+    </div>
+  </div> -->
+
+  <!-- <div class="" style="height:10px;">
+    &nbsp;
+  </div> -->
+
+  <div *ngIf="inReplyIdStringPresent">
+    <div class="middle-side-bottom-parent">
+      <div class="middle-side-bottom1 f-s-14 f-w-450">
+        <span class="f-w-450 show-pointer active-reply-class reply-class">
+          <!-- <span> -->
+          Reply
+        </span>
+        <span style="padding-left:20px">
+          <!-- <span> -->
+          &nbsp;
+        </span>
+        <span class="f-w-450 show-pointer reply-class op-7 black-4">
+          <!-- <span> -->
+          Note
+        </span>
+
+        <span class="show-pointer reply-class op-7" style="float: right !important;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M1.321 7.982c0-3.661 2.982-6.661 6.679-6.661 1.839 0 3.411.643 4.732 1.946 1.304 1.321 1.946 2.893 1.946 4.714 0 3.696-2.982 6.696-6.679 6.696-1.857 0-3.429-.661-4.714-1.982-1.304-1.286-1.964-2.857-1.964-4.714zm4.947-1.946l.179-.125c.018 0 .054-.036.143-.089.071-.054.125-.071.161-.089.214-.125.446-.196.714-.25.161-.018.268-.036.321-.036.589 0 .768.214.768.643 0 .304-.143.554-.429.786l-.446.411a3.07 3.07 0 0 0-.464.536c-.214.286-.393.804-.393 1.393v.179c0 .089 0 .143.018.179l.018.179h1.536v-.179c0-.429.161-.821.482-1.161l.232-.196a1.67 1.67 0 0 1 .232-.196 2.38 2.38 0 0 0 .5-.464c.304-.375.554-.893.554-1.661 0-1.232-.911-2.018-2.357-2.018-.875 0-1.661.232-2.357.696l-.125.089zm.661 5.946c.196.196.429.286.732.286.661 0 1.089-.393 1.089-1.036 0-.625-.393-1-1.089-1-.625 0-1.036.375-1.036 1 0 .304.107.554.304.75z">
+            </path>
+          </svg>
+        </span>
+
+        <!-- Reply -->
+
+      </div>
+
+      <div class="middle-side-bottom2">
+        <div class="message-reply-body">
+          <form #ss="ngForm">
+            <textarea rows="3" cols="200" (keypress)="calculateCharacters()" type="message"
+              [(ngModel)]="twitter.twitterText" name="email" required class="border-none reply-textarea f-s-14"
+              placeholder="Try adding article">
+                      </textarea>
+          </form>
+        </div>
+      </div>
+
+      <div class="middle-side-bottom3">
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M2 14V2c0-.554.446-1 1-1h10c.554 0 1 .446 1 1v12c0 .554-.446 1-1 1H3c-.554 0-1-.446-1-1zM3.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-9zM5 5h6V4H5v1zm0 3h6V7H5v1zm0 3h4v-1H5v1z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M3 13.998V2.097C3 1.492 3.5 1 4.142 1h7.716C12.48 1 13 1.492 13 2.097v11.818c0 1.08-1.085 1.329-1.574.888L8.164 12.08c-.123-.075-.152-.075-.275 0L4.64 14.803c-.725.484-1.625-.023-1.641-.805zM4.328 2C4.154 2 4 2.133 4 2.3v11.615c2.146-1.795 3.308-2.755 3.485-2.88.266-.187.86-.184 1.095 0 .156.122 1.296 1.11 3.42 2.963V2.3c0-.166-.135-.299-.326-.299H4.328zM4 4h8v1H4V4z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M8 0c4.446 0 8 3.554 8 8s-3.554 8-8 8-8-3.554-8-8 3.554-8 8-8zm0 1C4.078 1 1 4.078 1 8s3.078 7 7 7 7-3.078 7-7-3.078-7-7-7zM6 8c-.552 0-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5S6.552 8 6 8zm4 0c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8zm1.75 2a.233.233 0 0 1 .25.25c0 .43-1.5 2.417-4 2.417S4 10.68 4 10.25a.233.233 0 0 1 .25-.25c.462 0 1.374 1.333 3.75 1.333S11.288 10 11.75 10z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.957 9.018v-.934H3v.839h2.11v.185c0 1.296-.786 3.01-2.008 3.01-1.374 0-2.226-2.188-2.226-4.12 0-1.907.867-4.117 2.221-4.117 1.013 0 1.7.96 1.994 1.996h.866C5.711 4.36 4.612 3 3.097 3 1.227 3 0 5.576 0 7.997 0 10.45 1.208 13 3.097 13c1.748 0 2.86-2.092 2.86-3.982zM8.99 13V3h-.98v10h.978zm3.038 0V7.92h3.648v-.882h-3.648V3.892H16V3h-5v10h1.027z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M13.833 13H2.167A1.162 1.162 0 0 1 1 11.842V3.158C1 2.518 1.522 2 2.167 2h11.666C14.478 2 15 2.518 15 3.158v8.684c0 .64-.522 1.158-1.167 1.158zM2.4 3a.4.4 0 0 0-.4.4v8.2c0 .22.18.4.4.4h11.2a.4.4 0 0 0 .4-.4V3.4a.4.4 0 0 0-.4-.4H2.4zm7.625 2.005a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm4.49 6.495a.503.503 0 0 1-.311-.106l-3.305-2.601-1.31 1.03.41.365a.43.43 0 0 1 .014.64.51.51 0 0 1-.684.014L5.68 7.594l-3.845 3.765a.509.509 0 0 1-.686.015.432.432 0 0 1-.016-.638l4.18-4.093a.497.497 0 0 1 .34-.141.445.445 0 0 1 .345.124l2.886 2.57 1.703-1.34a.51.51 0 0 1 .624 0l3.617 2.847c.204.16.23.446.058.636a.5.5 0 0 1-.37.161z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M14.937 5.087c-.048-.3-.164-.598-.367-.942l-.029-.037a6.169 6.169 0 0 0-.297-.37l-1.89-1.98a2.402 2.402 0 0 0-1.273-.694 2.336 2.336 0 0 0-1.071-.002c-.489.084-.936.33-1.258.688l-.912.93-6.026 6.31a2.905 2.905 0 0 0-.775 1.58 3.13 3.13 0 0 0 0 .985c.05.34.155.665.313.972.129.22.29.439.468.637.1.1.215.197.331.28.354.254.75.43 1.178.518a2.82 2.82 0 0 0 .915-.001 2.603 2.603 0 0 0 1.504-.8l5.589-5.856c.098-.101.183-.208.254-.321l.012-.024a.599.599 0 0 0 .049-.105c.184-.412.229-.845.132-1.249a.978.978 0 0 0-.113-.306c-.082-.18-.177-.364-.318-.49a1.594 1.594 0 0 0-.473-.358c-.075-.037-.153-.062-.229-.087l-.099-.032a1.652 1.652 0 0 0-1.124.117.422.422 0 0 0-.131.068c-.14.1-.249.18-.32.265l-4.29 4.472-.069.084-.338.355a.459.459 0 0 0-.001.645.425.425 0 0 0 .607 0l.249-.283L9.546 5.43a.872.872 0 0 1 1.198-.01c.321.343.324.922.006 1.239l-5.584 5.829c-.604.645-1.581.791-2.32.348a1.836 1.836 0 0 1-.443-.36 1.852 1.852 0 0 1-.464-.794c-.226-.74-.061-1.483.454-2.037l6.933-7.252c.513-.515 1.258-.657 1.899-.359.191.085.366.204.517.351L13.666 4.4c.161.183.281.352.348.59.283.625.142 1.39-.348 1.904l-6.128 6.393c-.085.133-.07.402.076.547.079.084.187.13.305.13h.001a.417.417 0 0 0 .3-.125l6.029-6.294c.356-.367.592-.826.682-1.327l.034-.155a2.526 2.526 0 0 0-.028-.976">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options show-pointer">
+          <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14 11.5a.5.5 0 0 1-.5.5H12v1.5a.5.5 0 0 1-1 0V12H9.5a.5.5 0 0 1 0-1H11V9.5a.5.5 0 0 1 1 0V11h1.5a.5.5 0 0 1 .5.5zM13.25 2a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5A.75.75 0 0 1 9 6.25v-3.5A.75.75 0 0 1 9.75 2h3.5zM10 6h3V3h-3v3zM6.25 2a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5A.75.75 0 0 1 2 6.25v-3.5A.75.75 0 0 1 2.75 2h3.5zM3 6h3V3H3v3zm3.25 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1-.75-.75v-3.5A.75.75 0 0 1 2.75 9h3.5zM3 13h3v-3H3v3z">
+            </path>
+          </svg>
+        </span>
+
+        <span class="reply-class-options">
+          <img width="16" height="16" style="margin-top:-3.5px;" src="{{apiUrl}}/new/featured-content.png">
+        </span>
+
+        <!-- <span class="reply-class-options show-pointer" style="margin-left: 50px;">
+          <span *ngIf="postTweetChecking" class="col-md-1" style="padding: 10px; margin-top: 10px; margin-left: 3%; max-height: 5%; max-width: 5%;">
+            <a (click)="postTweet()"><img height="16" width="16" src="{{postTweetMessage ? (postTweetStatus ? (apiUrl + '/success.png') : (apiUrl + '/failure.jpg')) : (apiUrl + '/spinner.gif')}}" /></a>
+          </span>
+        </span> -->
+
+        <span class="" style="float: right; margin-top: -2px;">
+          <button class="btn btn-primary f-w-450" (click)="postTweet()">Send</button>
+        </span>
+      </div>
+
+      <!-- <div class="row ">
+        <div class="col-md-1">
+          <div class="row">
+            <div class="col-md-12">
+              <b> &nbsp; &nbsp;Reply:</b>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              {{totalAvailableCharacters}}/{{totalCharacters}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-1" title="Send" style="padding: 10px; margin-top: 10px; max-height: 5%; max-width: 5%;">
+          <a (click)="postTweet()"><img height="40" width="40" src="{{apiUrl}}/send.png" /></a>
+        </div>
+        <div *ngIf="postTweetChecking" class="col-md-1"
+          style="padding: 10px; margin-top: 10px; margin-left: 3%; max-height: 5%; max-width: 5%;">
+          <a (click)="postTweet()"><img height="50" width="50"
+              src="{{postTweetMessage ? (postTweetStatus ? (apiUrl + '/success.png') : (apiUrl + '/failure.jpg')) : (apiUrl + '/loading2.gif')}}" /></a>
+        </div>
+
+      </div> -->
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="right-side-parent">
+  <div *ngIf="!inReplyIdStringPresent">
+    <div class="userDiv" style="padding:10px">
+      Please Select any mention.
+    </div>
+  </div>
+  <div *ngIf="inReplyIdStringPresent && inReplyData && inReplyData.length">
+    <div class="right-side">
+      <div class="">
+        <div class="">
+          <div class="row" style="text-align: center;">
+            <div class="col-md-12">
+              <img style="border-radius: 50%; height: 50px; width: 50px;"
+                src="{{inReplyData[0].user.profile_image_url_https.replace('_normal.','.')}}">
+            </div>
+          </div>
+
+          <div class="row f-s-16 f-w-450" style="text-align:center; padding: 10px; ">
+            <div class="col-md-12">
+              {{inReplyData[0].user.name}}
+            </div>
+          </div>
+
+          <div class="row user-details-type">
+            <div class="">
+              User
+            </div>
+          </div>
+        </div>
+        <div class="show-pointer" style="position: absolute;top: 3px;right: 3px;">
+          <div class="" style="transform: rotate(90deg);">
+            <svg class="interface-icon o__standard" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+              viewBox="0 0 16 16">
+              <path
+                d="M3.5 9.5A1.51 1.51 0 0 1 2 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5zm4.5 0A1.51 1.51 0 0 1 6.5 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5zm4.5 0A1.51 1.51 0 0 1 11 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- <br /> -->
+
+      <div class="layout-user-details">
+        <span class="">
+          <svg class="interface-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M4.304 4.964c0-1.982 1.661-3.643 3.643-3.643h.143c.982 0 1.839.357 2.571 1.071.696.732 1.054 1.589 1.054 2.571 0 .446-.196 1.232-.571 2.357-.643 1.768-1.464 3.75-3.125 7.357-.786-1.661-1.411-3.036-1.857-4.125-1.018-2.286-1.857-4.679-1.857-5.589zm2.517.84c.339.339.732.5 1.196.5a1.67 1.67 0 0 0 1.661-1.661c0-.446-.161-.857-.482-1.196a1.72 1.72 0 0 0-1.179-.464c-.929 0-1.679.714-1.679 1.661 0 .482.161.857.482 1.161z">
+            </path>
+          </svg>
+        </span>
+        <div class="layout-user-details-extension">
+          <span>11:20AM</span>
+          <span> in</span>
+          Hyderabad,&nbsp;India
+        </div>
+      </div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('qualification')">
+        <span class="layout-user-details2-main">
+          Qualification
+        </span>
+        <div class="layout-user-details2-data">
+          <span>2/7 complete</span>
+        </div>
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.qualification}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+      <div *ngIf="userDetailsDisplay.qualification" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.qualification}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('lastViewed')">
+        <span class="layout-user-details2-main">
+          Last Viewed
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.lastViewed}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.lastViewed" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.lastViewed}">
+        <span>
+          1day ago
+        </span>
+      </div>
+
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('externalProfiles')">
+        <span class="layout-user-details2-main">
+          External Profiles
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.externalProfiles}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.externalProfiles" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.externalProfiles}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('latestConservations')">
+        <span class="layout-user-details2-main">
+          Latest Conservations
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.latestConservations}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.latestConservations" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.latestConservations}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('notes')">
+        <span class="layout-user-details2-main">
+          Notes
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.notes}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+
+      </div>
+
+      <div *ngIf="userDetailsDisplay.notes" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.notes}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('details')">
+        <span class="layout-user-details2-main">
+          Details
+        </span>
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.details}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.details" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.details}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2" (click)="unhideUserDetails('tags')">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2">
+        <span class="layout-user-details2-main">
+          Tags
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.tags}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.tags" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.tags}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+    <div class="right-side2">
+      <div class="expansion-10px-header"></div>
+      <div class="layout-user-details2" (click)="unhideUserDetails('segments')">
+        <span class="layout-user-details2-main">
+          Segments
+        </span>
+
+        <span class="layout-user-details2-drop-down" [ngClass]="{'rotate-90': userDetailsDisplay.segments}">
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <path
+              d="M5.714 3.161l5.179 4.232a.788.788 0 0 1 0 1.214l-5.179 4.232-.071.071a.596.596 0 0 1-.304.089.518.518 0 0 1-.518-.518V3.517a.518.518 0 0 1 .804-.429z">
+            </path>
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="userDetailsDisplay.segments" class="layout-user-details2-body"
+        [ngClass]="{'fade-1s': userDetailsDisplay.segments}">
+        <span>
+          lorem ipsum
+        </span>
+      </div>
+
+      <div class="expansion-10px-end"></div>
+    </div>
+
+  </div>
+</div>

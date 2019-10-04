@@ -1,0 +1,76 @@
+.parent {
+    background-color: #ebebeb;
+    margin-top: -10px;
+    margin-left: -10px;
+    padding-top: 0px;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: absolute;
+}
+
+.top-bar {
+    position: relative;
+    margin-top: 3%;
+}
+
+.login-logo{
+    text-align: center;
+    /* padding: 3px; */
+    padding-bottom: 7px;
+    padding-top: 10px;
+}
+
+.error-message {
+    text-align: center !important;
+    margin-top: 3px;
+    /* width: 20%; */
+    margin-right: 5%;
+    margin-left: 5%;
+    padding: 10px;
+}
+
+.flex-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    
+}
+
+.flex-container > div {
+    background-color: #f8f8f8;
+    min-width: 20%;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 18px 1px grey;
+}
+
+.login-box-parent {
+    padding:13px; 
+    border-radius: 3px;  
+    box-shadow: 10px red;
+    /* align-items: center;
+    text-align: center; */
+}
+
+.alert-info-new {
+    color: red;
+    /* background-color: #d1ecf1;
+    border-color: #bee5eb; */
+    padding: 4px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.connect-twitter {
+    padding: 7px;
+    padding-bottom: 10px;
+}
+
+.btn-primary {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+}

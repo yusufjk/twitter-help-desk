@@ -1,0 +1,61 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+  <title>Twitter Help Desk</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <link href="assets/css/Footer-Basic.css" rel="stylesheet">
+  <link href="assets/css/Google-Style-Login.css" rel="stylesheet">
+  <link href="assets/css/Navigation-with-Button.css" rel="stylesheet">
+  <link href="assets/css/Pretty-Registration-Form.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+
+<div>
+  <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="#" style="color: #ffffff;">Twitter Help Desk</a>
+      <button class="navbar-toggler" data-target="#navcol-1" data-toggle="collapse"><span class="sr-only">Toggle navigation</span><span
+        class="navbar-toggler-icon"></span></button>
+      <div
+        class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav mr-auto"></ul>
+        <span class="navbar-text actions"> <a class="login" routerLink="/login style="color: #ffffff;">Log In</a><a
+          class="btn btn-light action-button" routerLink="/register role="button" style="background-color: #b5d1e8;color: #002649;">Sign Up</a></span>
+      </div>
+    </div>
+  </nav>
+</div>
+<br/>
+
+<div class="row justify-content-md-center">
+    <span class=" col-md-3 alert alert-{{alertMessageType}}">
+      {{message}}
+    </span>
+</div>
+
+
+<div class="login-card">
+  <p class="profile-name-card">Login&nbsp;</p>
+  <form #ss="ngForm><span class=" class="form-signin" reauth-email
+  "> </span><input autofocus=""  [(ngModel)]="userData.email" name="email" required class="form-control" id="email" placeholder="Email address" type="email">
+  <input [(ngModel)]="userData.password" name="password" required class="form-control" id="password"  placeholder="Password" type="password">
+
+  <button class="btn btn-primary btn-block btn-lg btn-signin" (click)="formSubmit()" type="submit">Sign in</button>
+  </form>
+</div>
+<div class="footer-basic" style="background-color: #002649;">
+  <footer>
+    <div class="social"><a href="#"><i class="icon ion-social-instagram" style="color: #b5d1e8;"></i></a><a href="#"><i
+      class="icon ion-social-snapchat" style="color: #b5d1e8;"></i></a><a href="#"><i class="icon ion-social-twitter"
+                                                                                      style="color: #b5d1e8;"></i></a>
+      <a
+        href="#"><i class="icon ion-social-facebook" style="color: #b5d1e8;"></i></a>
+    </div>
+    <ul class="list-inline">
+      <li class="list-inline-item" style="color: #b5d1e8;"><a href="#">This Project is entitled to RichPanel</a></li>
+    </ul>
+    <p class="copyright">Yusuf JK © 2019</p>
+  </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
