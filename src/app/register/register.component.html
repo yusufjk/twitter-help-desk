@@ -1,44 +1,81 @@
-<div class="contatiner-fluid">
-  <nav class="navbar navbar-expand-lg bg-light navbar-light">
-    <a class="navbar-brand" style="color:green; font-family: serif ">Help Desk</a>
-    <ul class="navbar-nav">
-    </ul>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+  <title>Twitter Help Desk</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+</head>
+<body>
+<div>
+  <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="#" style="color: #ffffff;">Twitter Help Desk</a>
+      <button class="navbar-toggler" data-target="#navcol-1" data-toggle="collapse"><span class="sr-only">Toggle navigation</span><span
+        class="navbar-toggler-icon"></span></button>
+      <div
+        class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav mr-auto"></ul>
+        <span class="navbar-text actions"> <a class="login" routerLink="/login" style="color: #ffffff;">Log In</a><a
+          class="btn btn-light action-button" role="button" routerLink="/register"
+          style="background-color: #b5d1e8;color: #002649;">Sign Up</a></span></div>
+    </div>
   </nav>
-  <br/>
+</div>
+
+<br/>
+
   <div class="row justify-content-md-center">
     <span class=" col-md-3 alert alert-{{alertMessageType}}">
       {{message}}
     </span>
   </div>
 
-  <div class="row justify-content-md-center">
-    <div class="col-md-3">
-      <h2>Register</h2>
-      <form #ss="ngForm">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" [(ngModel)]="userData.name" name="name" required class="form-control" id="name">
+<div class="row register-form">
+  <div class="col-md-8 offset-md-2">
+    <form #ss="ngForm" class="custom-form">
+      <h1>Registeration Form</h1>
+      <div class="form-row form-group">
+        <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Name </label></div>
+        <div class="col-sm-6 input-column"><input [(ngModel)]="userData.name" class="form-control" id="name" name="name"
+                                                  required type="text"></div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">Email </label></div>
+        <div class="col-sm-6 input-column"><input [(ngModel)]="userData.email" class="form-control" id="email"
+                                                  name="email" required type="email"></div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Password </label>
         </div>
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input type="email" [(ngModel)]="userData.email" name="email" required class="form-control" id="email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" [(ngModel)]="userData.password" name="password" required class="form-control" id="password">
-        </div>
-        <div class="form-group">
-          <label for="confirmPassowrd">Confirm Password:</label>
-          <input type="password" [(ngModel)]="userData.confirmPassword" name="confirmPassowrd" required class="form-control"
-            id="confirmPassword">
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-success form-control" (click)="formSubmit()">Submit</button>
-        </div>
-        <div class="form-group">
-          <a style="background-color:midnightblue; color: white" class="btn form-control" routerLink="/login">Login</a>
-        </div>
-      </form>
-    </div>
+        <div class="col-sm-6 input-column"><input [(ngModel)]="userData.password" class="form-control" id="password"
+                                                  name="password" required type="password"></div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-sm-4 label-column"><label class="col-form-label" for="repeat-pawssword-input-field">Repeat
+          Password </label></div>
+        <div class="col-sm-6 input-column"><input [(ngModel)]="userData.confirmPassword" class="form-control"
+                                                  id="confirmPassword" name="confirmPassowrd"
+                                                  required type="password"></div>
+      </div>
+      <div class="form-check"><input class="form-check-input" id="formCheck-4" type="checkbox"><label
+        class="form-check-label" for="formCheck-4">I've read and accept the terms and conditions</label></div>
+      <button class="btn btn-light submit-button" type="button">Submit Form</button>
+    </form>
   </div>
 </div>
+<div class="footer-basic" style="background-color: #002649;">
+  <footer>
+    <div class="social"><a href="#"><i class="icon ion-social-instagram" style="color: #b5d1e8;"></i></a><a href="#"><i
+      class="icon ion-social-snapchat" style="color: #b5d1e8;"></i></a><a href="#"><i class="icon ion-social-twitter"
+                                                                                      style="color: #b5d1e8;"></i></a>
+      <a
+        href="#"><i class="icon ion-social-facebook" style="color: #b5d1e8;"></i></a>
+    </div>
+    <ul class="list-inline">
+      <li class="list-inline-item" style="color: #b5d1e8;"><a href="#">This Project is entitled to RichPanel</a></li>
+    </ul>
+    <p class="copyright">Yusuf JK © 2019</p>
+  </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
