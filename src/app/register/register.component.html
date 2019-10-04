@@ -23,16 +23,16 @@
 
 <br/>
 
-  <div class="row justify-content-md-center">
+<div class="row justify-content-md-center">
     <span class=" col-md-3 alert alert-{{alertMessageType}}">
       {{message}}
     </span>
-  </div>
+</div>
 
 <div class="row register-form">
   <div class="col-md-8 offset-md-2">
     <form #ss="ngForm" class="custom-form">
-      <h1>Registeration Form</h1>
+      <h1>Registration Form</h1>
       <div class="form-row form-group">
         <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Name </label></div>
         <div class="col-sm-6 input-column"><input [(ngModel)]="userData.name" class="form-control" id="name" name="name"
@@ -58,7 +58,7 @@
       </div>
       <div class="form-check"><input class="form-check-input" id="formCheck-4" type="checkbox"><label
         class="form-check-label" for="formCheck-4">I've read and accept the terms and conditions</label></div>
-      <button class="btn btn-light submit-button" type="button">Submit Form</button>
+      <button (click)="formSubmit()" class="btn btn-light submit-button" type="button">Submit Form</button>
     </form>
   </div>
 </div>
