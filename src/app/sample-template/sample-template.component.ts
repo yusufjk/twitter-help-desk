@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'environments/environment';
+import {Component, OnInit} from '@angular/core';
+import {environment} from 'environments/environment';
 
 @Component({
   selector: 'app-sample-template',
@@ -8,13 +8,14 @@ import { environment } from 'environments/environment';
 })
 export class SampleTemplateComponent implements OnInit {
 
-  constructor() { }
+  apiUrl: string = environment.apiUrl;
+  mentions: any = [];
+  replies: any = [];
+  defaultMentionIndex = 0;
 
-  apiUrl: string = environment.apiUrl
-  mentions: any = []
-  replies: any = []
+  constructor() {
+  }
 
-  defaultMentionIndex = 0
   ngOnInit() {
     this.mentions = [
       {
@@ -68,7 +69,7 @@ export class SampleTemplateComponent implements OnInit {
         full_text: 'Its okay done.8',
         image: 'https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg'
       }
-    ]
+    ];
 
     this.replies = [
       {

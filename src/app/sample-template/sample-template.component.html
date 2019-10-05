@@ -3,31 +3,31 @@
 
     <div class="row">
       <div class="col-md-12">
-        <img class="brand-logo" src="{{apiUrl}}/new/facebook.png" />
+        <img class="brand-logo" src="{{apiUrl}}/new/facebook.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:25%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/add-contact.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/add-contact.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/paper-plane.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/paper-plane.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12 active-font-left-icon">
-        <img class="front-left-icon" src="{{apiUrl}}/new/speech-bubble2_blue.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/speech-bubble2_blue.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/clipboard.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/clipboard.png"/>
       </div>
     </div>
 
@@ -39,31 +39,31 @@
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/consulting-message.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/consulting-message.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/clipboard 1.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/clipboard 1.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/tile.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/tile.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/alarm.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/alarm.png"/>
       </div>
     </div>
 
     <div class="row" style="margin-top:10%">
       <div class="col-md-12">
-        <img class="front-left-icon" src="{{apiUrl}}/new/user.png" />
+        <img class="front-left-icon" src="{{apiUrl}}/new/user.png"/>
       </div>
     </div>
 
@@ -72,19 +72,19 @@
     <div class="left-side-1">
       <div class="row three-panel-data">
         <div class="col-md-1 three-panel-row">
-          <img src="{{apiUrl}}/new/three_lines.png" />
+          <img src="{{apiUrl}}/new/three_lines.png"/>
         </div>
 
         <div class="col-md-4 three-panel-row-2">
           <span><b>All</b></span>
           &nbsp;
-          <img class="down-icon" src="{{apiUrl}}/new/arrow-down.png" />
+          <img class="down-icon" src="{{apiUrl}}/new/arrow-down.png"/>
         </div>
       </div>
 
       <div class="row read-message">
         <div class="col-md-1 three-panel-row3">
-          <img src="{{apiUrl}}/new/reading-message.png" />
+          <img src="{{apiUrl}}/new/reading-message.png"/>
         </div>
 
         <div class="col-md-4">
@@ -92,7 +92,7 @@
         </div>
 
         <div class="offset-md-2 col-md-4 three-panel-row4">
-          <b>Newest</b> &nbsp; <img class="down-icon" src="{{apiUrl}}/new/arrow-down.png" />
+          <b>Newest</b> &nbsp; <img class="down-icon" src="{{apiUrl}}/new/arrow-down.png"/>
         </div>
       </div>
 
@@ -100,10 +100,11 @@
 
     <div class="left-side-2">
       <div *ngFor="let iMention of mentions; let i = index">
-        <div (click)="clickMention(i)" class="{{defaultMentionIndex == i ? 'individual-mention-active' : 'individual-mention'}} fade">
+        <div (click)="clickMention(i)"
+             class="{{defaultMentionIndex == i ? 'individual-mention-active' : 'individual-mention'}} fade">
           <div class="row " style="margin-top:1.25%;">
             <div class="col-md-2 mention">
-              <img src="{{iMention.image}}" />
+              <img src="{{iMention.image}}"/>
             </div>
 
             <div class="col-md-6">
@@ -117,7 +118,7 @@
 
           <div class="row" style="margin-top:5%;">
             <div class="col-md-12">
-              <img src="{{apiUrl}}/new/user2.png" style="width:13px;height:13px;font-size: 14px;" />
+              <img src="{{apiUrl}}/new/user2.png" style="width:13px;height:13px;font-size: 14px;"/>
               &nbsp; {{iMention.full_text}}
             </div>
           </div>
@@ -139,14 +140,14 @@
         </div>
 
         <div class="offset-md-6 col-md-4">
-          <img src="{{apiUrl}}/new/menu.png" />
+          <img src="{{apiUrl}}/new/menu.png"/>
           &nbsp; &nbsp;
-          <img src="{{apiUrl}}/new/user2.png" />
+          <img src="{{apiUrl}}/new/user2.png"/>
           &nbsp; &nbsp; You
-          &nbsp; &nbsp;<img src="{{apiUrl}}/new/arrow-down.png" style="height:10px; width:10px" />
-          &nbsp; &nbsp; <img src="{{apiUrl}}/new/star.png" />
-          &nbsp; &nbsp; <img src="{{apiUrl}}/new/clock.png" />
-          &nbsp; &nbsp; <img src="{{apiUrl}}/new/tick.png" />
+          &nbsp; &nbsp;<img src="{{apiUrl}}/new/arrow-down.png" style="height:10px; width:10px"/>
+          &nbsp; &nbsp; <img src="{{apiUrl}}/new/star.png"/>
+          &nbsp; &nbsp; <img src="{{apiUrl}}/new/clock.png"/>
+          &nbsp; &nbsp; <img src="{{apiUrl}}/new/tick.png"/>
         </div>
       </div>
     </div>
@@ -156,7 +157,8 @@
         <div class="ss-info">
           <div class="row" style="padding: 10px">
             <div class="col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
             <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
               <div class="row">
@@ -193,7 +195,8 @@
             </div>
 
             <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
           </div>
 
@@ -207,85 +210,8 @@
         <div class="ss-info">
           <div class="row" style="padding: 10px">
             <div class="col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg" style="border-radius:50%" />
-            </div>
-            <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
-              <div class="row">
-                <div class="col-md-12" style="font-size:15.5px; font-weight: 600">
-                  Ramaiah
-                </div>
-              </div>
-
-              <div class="row" style="font-size:14px; margin-top:2%">
-                <div class="col-md-12">
-                  Ok bro
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="offset-md-1 col-md-1" style="font-size:13px;">
-              1h
-            </div>
-          </div>
-        </div>
-
-        <div class="ss-info">
-          <div class="row" style="padding: 10px">
-            <div class="col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg" style="border-radius:50%" />
-            </div>
-            <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
-              <div class="row">
-                <div class="col-md-12" style="font-size:15.5px; font-weight: 600">
-                  Ramaiah
-                </div>
-              </div>
-
-              <div class="row" style="font-size:14px; margin-top:2%">
-                <div class="col-md-12">
-                  Ok bro
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="offset-md-1 col-md-1" style="font-size:13px;">
-              1h
-            </div>
-          </div>
-        </div>
-
-        <div class="ss-info">
-          <div class="row" style="padding: 10px">
-
-            <div class="offset-md-6 col-md-5" style="background-color:#dce6eb; padding: 10px; border-radius: 10px;">
-
-              <div class="row" style="font-size:14px; margin-top:2%">
-                <div class="col-md-12">
-                  Ok bro
-                </div>
-              </div>
-            </div>
-
-            <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="offset-md-11 col-md-1" style="font-size:13px;">
-              1h
-            </div>
-          </div>
-        </div>
-
-        <div class="ss-info">
-          <div class="row" style="padding: 10px">
-            <div class="col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
             <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
               <div class="row">
@@ -312,7 +238,8 @@
         <div class="ss-info">
           <div class="row" style="padding: 10px">
             <div class="col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
             <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
               <div class="row">
@@ -349,7 +276,89 @@
             </div>
 
             <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="offset-md-11 col-md-1" style="font-size:13px;">
+              1h
+            </div>
+          </div>
+        </div>
+
+        <div class="ss-info">
+          <div class="row" style="padding: 10px">
+            <div class="col-md-1">
+              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg"
+                   style="border-radius:50%"/>
+            </div>
+            <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
+              <div class="row">
+                <div class="col-md-12" style="font-size:15.5px; font-weight: 600">
+                  Ramaiah
+                </div>
+              </div>
+
+              <div class="row" style="font-size:14px; margin-top:2%">
+                <div class="col-md-12">
+                  Ok bro
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="offset-md-1 col-md-1" style="font-size:13px;">
+              1h
+            </div>
+          </div>
+        </div>
+
+        <div class="ss-info">
+          <div class="row" style="padding: 10px">
+            <div class="col-md-1">
+              <img src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw_normal.jpg"
+                   style="border-radius:50%"/>
+            </div>
+            <div class="col-md-5" style="background-color:#e9e9e9; padding: 10px; border-radius: 10px;">
+              <div class="row">
+                <div class="col-md-12" style="font-size:15.5px; font-weight: 600">
+                  Ramaiah
+                </div>
+              </div>
+
+              <div class="row" style="font-size:14px; margin-top:2%">
+                <div class="col-md-12">
+                  Ok bro
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="offset-md-1 col-md-1" style="font-size:13px;">
+              1h
+            </div>
+          </div>
+        </div>
+
+        <div class="ss-info">
+          <div class="row" style="padding: 10px">
+
+            <div class="offset-md-6 col-md-5" style="background-color:#dce6eb; padding: 10px; border-radius: 10px;">
+
+              <div class="row" style="font-size:14px; margin-top:2%">
+                <div class="col-md-12">
+                  Ok bro
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-md-1">
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
           </div>
 
@@ -373,7 +382,8 @@
             </div>
 
             <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
           </div>
 
@@ -397,7 +407,8 @@
             </div>
 
             <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
           </div>
 
@@ -421,7 +432,8 @@
             </div>
 
             <div class=" col-md-1">
-              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg" style="border-radius:50%" />
+              <img src="https://pbs.twimg.com/profile_images/912340163019206658/oWYK_f3B_normal.jpg"
+                   style="border-radius:50%"/>
             </div>
           </div>
 
@@ -453,7 +465,7 @@
       <div class="profile-data">
         <div class="row ">
           <div class="col-md-12">
-            <img class="user-profile-photo" src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw.jpg" />
+            <img class="user-profile-photo" src="https://pbs.twimg.com/profile_images/813396403019923459/hlzuzaPw.jpg"/>
           </div>
         </div>
 
@@ -474,13 +486,13 @@
 
       <div class="row profile-info">
         <div class="col-md-12" style="margin-left:3%">
-          <img src="{{apiUrl}}/new/location.png" /> &nbsp; 4:14AM in Mumbai, India
+          <img src="{{apiUrl}}/new/location.png"/> &nbsp; 4:14AM in Mumbai, India
         </div>
       </div>
 
       <div class="row profile-info2">
         <div class="col-md-12" style="margin-left:3%">
-          <img src="{{apiUrl}}/new/user2.png" /> &nbsp; Shubhanshu Chouhan
+          <img src="{{apiUrl}}/new/user2.png"/> &nbsp; Shubhanshu Chouhan
         </div>
       </div>
 
@@ -502,7 +514,7 @@
         </div>
 
         <div class="offset-md-1 col-md-2">
-          <img style="width:30%; opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%; opacity: 0.4;"/>
         </div>
       </div>
 
@@ -524,7 +536,7 @@
         </div>
 
         <div class="offset-md-1 col-md-2">
-          <img style="width:30%; opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%; opacity: 0.4;"/>
         </div>
       </div>
 
@@ -541,18 +553,18 @@
           <b>External Profiles </b>
         </div>
         <div class=" col-md-2">
-          <img style="width:26%;opacity: 0.4;" src="{{apiUrl}}/new/arrow-down.png" />
+          <img src="{{apiUrl}}/new/arrow-down.png" style="width:26%;opacity: 0.4;"/>
         </div>
       </div>
 
       <div class="row" style="margin-top:3%;">
         <div class="col-md-12" style="margin-top:3px; margin-left:4%;">
-          <img src="{{apiUrl}}/new/facebook2.png" />
+          <img src="{{apiUrl}}/new/facebook2.png"/>
           &nbsp; <b>facebook</b> &nbsp;&nbsp; christyram99
         </div>
 
         <div class="col-md-12" style="margin-top:10px; margin-left:4%;">
-          <img src="{{apiUrl}}/new/twitter.png" />
+          <img src="{{apiUrl}}/new/twitter.png"/>
           &nbsp; <b>twitter</b> &nbsp;&nbsp; christyram99
         </div>
       </div>
@@ -570,7 +582,7 @@
           <b>Latest Conversation </b>
         </div>
         <div class="offset-md-3 col-md-2">
-          <img style="width:30%; opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%; opacity: 0.4;"/>
         </div>
       </div>
 
@@ -587,7 +599,7 @@
           <b>Notes </b>
         </div>
         <div class="offset-md-3 col-md-2">
-          <img style="width:30%;opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%;opacity: 0.4;"/>
         </div>
       </div>
 
@@ -604,7 +616,7 @@
           <b>Details</b>
         </div>
         <div class="offset-md-3 col-md-2">
-          <img style="width:30%;opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%;opacity: 0.4;"/>
         </div>
       </div>
 
@@ -621,7 +633,7 @@
           <b>Tags</b>
         </div>
         <div class="offset-md-3 col-md-2">
-          <img style="width:30%;opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%;opacity: 0.4;"/>
         </div>
       </div>
 
@@ -638,7 +650,7 @@
           <b>Segments</b> &nbsp; (2)
         </div>
         <div class="offset-md-3 col-md-2">
-          <img style="width:30%;opacity: 0.4;" src="{{apiUrl}}/new/arrow-right.png" />
+          <img src="{{apiUrl}}/new/arrow-right.png" style="width:30%;opacity: 0.4;"/>
         </div>
       </div>
 

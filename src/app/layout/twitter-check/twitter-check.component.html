@@ -1,30 +1,70 @@
-<!-- <div>
-  <div class="alert alert-{{messageAlertType}}">
-    {{message}}
-  </div>
-</div> -->
-<div class="parent">
-  <div *ngIf="loading">
-    Loading..
-  </div>
-  <div *ngIf="!loading">
-    <div class="flex-container top-bar">
-      <div class="login-box-parent">
-        <div class="login-logo">
-          <img height="70" width="70" src="{{apiUrl}}/new/favicon.ico" />
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+  <title>Twitter Help Desk</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+</head>
+
+<div>
+  <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="#" style="color: #ffffff;">Twitter Help Desk</a>
+      <button class="navbar-toggler" data-target="#navcol-1" data-toggle="collapse"><span class="sr-only">Toggle navigation</span><span
+        class="navbar-toggler-icon"></span></button>
+      <div
+        class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav mr-auto"></ul>
+        <span class="navbar-text actions"> <a
+          class="btn btn-light action-button" role="button" routerLink="/logout"
+          style="background-color: #b5d1e8;color: #002649;"> Logout </a></span>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<br/>
+
+<div *ngIf="loading">
+  Loading..
+</div>
+<div *ngIf="!loading">
+  <div class="flex-container top-bar">
+    <div class="login-box-parent">
+      <div class="login-logo">
+        <img height="70" src="{{apiUrl}}/new/favicon.ico" width="70"/>
+      </div>
+      <div class="error-message">
+        <div class="alert-info-new">
+          {{message}}
         </div>
-        <div class="error-message">
-          <div class="alert-info-new">
-            {{message}}
-          </div>
-        </div>
-        <div class="connect-twitter">
-          <button class="btn btn-primary" (click)="connectToTwitter()">
-            <span><img width="32" height="32" src="{{apiUrl}}/new/twitter4.png" /></span>
-            Connect With Twitter
-          </button>
-        </div>
+      </div>
+      <div class="connect-twitter">
+        <button (click)="connectToTwitter()" class="btn btn-primary">
+          <span><img height="32" src="{{apiUrl}}/new/twitter4.png" width="32"/></span>
+          Connect With Twitter
+        </button>
       </div>
     </div>
   </div>
 </div>
+
+<div class="footer-basic" style="background-color: #002649;">
+  <footer>
+    <div class="social">
+      <a href="https://www.instagram.com/yusuf_jk/"><i class="icon ion-social-instagram"
+                                                       style="color: #b5d1e8;"></i></a>
+      <a href="https://github.com/yusufjk"><i class="icon ion-social-github" style="color: #b5d1e8;"></i></a>
+      <a href="https://twitter.com/Yusufjk"><i class="icon ion-social-twitter" style="color: #b5d1e8;"></i></a>
+      <a href="https://www.linkedin.com/in/yusuf-jk/"><i class="icon ion-social-linkedin"
+                                                         style="color: #b5d1e8;"></i></a>
+    </div>
+    <ul class="list-inline">
+      <li class="list-inline-item" style="color: #b5d1e8;"><a href="#">This Project is entitled to RichPanel</a></li>
+    </ul>
+    <p class="copyright">Yusuf JK © 2019</p>
+  </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+

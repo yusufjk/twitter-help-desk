@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ChattingRoutingModule } from './chatting-routing.module';
-import { ChattingComponent } from './chatting.component';
+import {ChattingRoutingModule} from './chatting-routing.module';
+import {ChattingComponent} from './chatting.component';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [ChattingComponent],
@@ -15,4 +15,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ]
 })
-export class ChattingModule { }
+export class ChattingModule {
+}

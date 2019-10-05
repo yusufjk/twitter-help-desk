@@ -1,39 +1,38 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 
 /* require thrid party modules */
-const config = require('config')
-var bodyParser = require('body-parser')
-const helmet = require('helmet')
-const cookieParser = require('cookie-parser')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const methodOverride = require('method-override')
+const config = require('config');
+var bodyParser = require('body-parser');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const methodOverride = require('method-override');
 var http = require('http').createServer(app);
 // const server = app.listen(1337);
-var io = require('socket.io')(http)
-var CommonUtilities = require('./restApp/utilities/commonUtilities')
+var io = require('socket.io')(http);
+var CommonUtilities = require('./restApp/utilities/commonUtilities');
 
-var TwitterService = require('./restApp/services/twitterService')
+var TwitterService = require('./restApp/services/twitterService');
 
-var newSocket
-var socketData = {}
+var newSocket;
+var socketData = {};
 
 /* websocket */
-// require('./restApp/services/socketService')(io)
 io.on('connection', function (socket) {
-  newSocket = socket
+  newSocket = socket;
   console.log('a user connected ', socket.id);
   socket.on('message', function (msg) {
-    console.log(socket.id)
+    console.log(socket.id);
     console.log('message: ' + msg);
     io.to(socket.id).emit('message', 'for your eyes only');
   });
 
-  let timeOut
+  let timeOut;
 
   socket.on('register', function (authToken) {
-    console.log('registered socket with token ', authToken)
+    console.log('registered socket with token ', authToken);
     CommonUtilities.decodeJwtToken(authToken, function (error, message, data) {
       if (error) {
         console.log('auth token expired')
@@ -42,35 +41,35 @@ io.on('connection', function (socket) {
       }
       /* getting mentions for first time call */
       TwitterService.getMentionsFromTwitterForSocket(socketData[socket.id], function (data) {
-        console.log('data from socket twitter service for first time call ')
+        console.log('data from socket twitter service for first time call ');
         if (data.statusCode === 'SUCCESS') {
-          console.log('new mentions data ', data.data.length, data.data.id, data.data.full_text, data.data.maintwittweStatusIdStr )
+          console.log('new mentions data ', data.data.length, data.data.id, data.data.full_text, data.data.maintwittweStatusIdStr);
           if (data.data && data.data.length) {
-            console.log('mentions data greater than one', data.data.length)
+            console.log('mentions data greater than one', data.data.length);
 
             /* emi to the user */
             socket.emit('newTweet', data)
           } else {
-              console.log('new mentions data null')
+            console.log('new mentions data null')
           }
         } else {
           console.log('error while getting new mentions data', data.statusCode, data.message)
         }
-      })
+      });
 
       timeOut = setInterval(() => {
         /* get new mentions */
         TwitterService.getMentionsFromTwitterForSocket(socketData[socket.id], function (data) {
           // console.log('data from socket twitter service ', data.statusCode)
           if (data.statusCode === 'SUCCESS') {
-            console.log('new mentions data ', data.data.length, data.data.id, data.data.full_text, data.data.maintwittweStatusIdStr )
+            console.log('new mentions data ', data.data.length, data.data.id, data.data.full_text, data.data.maintwittweStatusIdStr);
             if (data.data && data.data.length) {
-              console.log('mentions data greater than one', data.data.length)
+              console.log('mentions data greater than one', data.data.length);
 
               /* emi to the user */
               socket.emit('newTweet', data)
             } else {
-                console.log('new mentions data null')
+              console.log('new mentions data null')
             }
           } else {
             console.log('error while getting new mentions data', data.statusCode, data.message)
@@ -78,27 +77,26 @@ io.on('connection', function (socket) {
         })
       }, 10.1 * 1000);
     })
-  })
+  });
 
   socket.on('disconnect', function () {
-    console.log('socket disconnected ', socket.id)
-    delete socketData[socket.id]
-    if(timeOut){
-      console.log('time out delete')
-      console.log(typeof(timeOut))
+    console.log('socket disconnected ', socket.id);
+    delete socketData[socket.id];
+    if (timeOut) {
+      console.log('time out delete');
+      console.log(typeof (timeOut));
 
       /* based on timeout object we clearing and removing */
-      if(typeof(timeOut) === 'object'){
+      if (typeof (timeOut) === 'object') {
         clearInterval(timeOut)
-      }else{
+      } else {
         delete timeOut
       }
-    }else{
+    } else {
       console.log('time out function not found')
     }
   })
 });
-
 
 
 const options = {
@@ -111,94 +109,77 @@ const options = {
   keepAlive: 120,
   promiseLibrary: require('bluebird'),
   useNewUrlParser: true
-}
+};
 
 mongoose.set('debug', false);
 
 mongoose.connect(config.mongodb.uri, options)
   .then(() => console.log('mongoose connection successful'))
-  .catch((err) => console.error(err))
+  .catch((err) => console.error(err));
 
-const db = mongoose.connection
+const db = mongoose.connection;
 
 db.once('error', function (err) {
-  console.error('mongoose connection error' + err)
+  console.error('mongoose connection error' + err);
   mongoose.disconnect()
-})
+});
 db.on('open', function () {
   console.log('successfully connected to mongoose')
-})
+});
 db.on('reconnected', function () {
   console.log('MongoDB reconnected!')
-})
+});
 db.on('disconnected', function () {
   console.log('MongoDB disconnected!')
-})
+});
 
-app.use(helmet())
-app.use(bodyParser.json())
+app.use(helmet());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
-}))
-app.use(cookieParser())
-app.use(methodOverride('X-HTTP-Method-Override'))
+}));
+app.use(cookieParser());
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 app.use(cors(), function (req, res, next) {
-  res.header('Access-Control-Allow-Credentials', true)
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type,Accept')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type,Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   next()
-})
+});
 
-app.use(express.static(__dirname + '/dist'))
-app.use(express.static(__dirname + '/uploads/'))
-app.use(express.static(__dirname + '/socketIo/'))
+app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/uploads/'));
+app.use(express.static(__dirname + '/socketIo/'));
 
 /* requring external routes */
-require('./restApp/routes/userRoutes')(app)
-require('./restApp/routes/twitterRoutes')(app)
+require('./restApp/routes/userRoutes')(app);
+require('./restApp/routes/twitterRoutes')(app);
 
 app.get('/*', function (req, res) {
   res.sendFile(__dirname + '/dist' + '/index.html');
 });
 
-// /* cron jobs */
-// var TwitterService = require('./restApp/services/twitterService')
-// TwitterService.getTwitterMentionsUserWiseCron()
 const cron = require('node-cron');
 
-// cron.schedule('*/10 * * * * *', () => {
-//     // newSocket.emit('message', 'thinking')
-//     TwitterService.getTwitterMentionsUserWiseCron(function(error, data){
-
-//     })
-//     console.log('running a task every minute', new Date());
-// });
-
-/* calling streaming api */
-// TwitterService.streaming()
-
-/* update mainMention for old data */
-// TwitterService.updateMainMention2()
-
 process.on('uncaughtException', function (uncaught_exception) {
-  console.error((new Date()).toUTCString() + ' uncaughtException:', uncaught_exception.message)
+  console.error((new Date()).toUTCString() + ' uncaughtException:', uncaught_exception.message);
   console.error(uncaught_exception)
-})
+});
 
 process.on('unhandledRejection', function (unhandled_error) {
-  console.error((new Date()).toUTCString() + ' unhandledRejection:', unhandled_error.message)
+  console.error((new Date()).toUTCString() + ' unhandledRejection:', unhandled_error.message);
   console.error(unhandled_error)
-})
+});
 
 process.on('uncaughtException', function (e) {
-  console.error('Uncaught Exception...')
+  console.error('Uncaught Exception...');
   console.error(e.stack)
-})
+});
 
 /* setting port */
-let port = config.serverPort ? config.serverPort : 8080
+let port = config.serverPort ? config.serverPort : 8080;
 http.listen(process.env.PORT || port, function () {
   console.log('\nserver started on port ', port)
-})
+});

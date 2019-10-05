@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TwitterCheckComponent } from './twitter-check.component';
+import {TwitterCheckComponent} from './twitter-check.component';
 
 describe('TwitterCheckComponent', () => {
   let component: TwitterCheckComponent;
@@ -8,9 +8,9 @@ describe('TwitterCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwitterCheckComponent ]
+      declarations: [TwitterCheckComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { LayoutComponent } from './layout.component'
-import { DashboardComponent } from './dashboard/dashboard.component'
+import {LayoutComponent} from './layout.component'
+import {DashboardComponent} from './dashboard/dashboard.component'
 
-import { TwitterDeskComponent } from './twitter-desk/twitter-desk.component'
-import { TwitterCheckComponent } from './twitter-check/twitter-check.component'
+import {TwitterDeskComponent} from './twitter-desk/twitter-desk.component'
+import {TwitterCheckComponent} from './twitter-check/twitter-check.component'
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo : 'twitter-check'
+        redirectTo: 'twitter-check'
       },
       {
         path: 'dashboard',
@@ -35,4 +35,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class LayoutRoutingModule { }
+export class LayoutRoutingModule {
+}

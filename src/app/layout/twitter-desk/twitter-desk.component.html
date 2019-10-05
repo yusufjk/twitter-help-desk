@@ -37,7 +37,7 @@
   class="left-side-parent">
   <div class="left-side-top">
     <div class="row assign-panel">
-      <div (click)="togglePreLeftBar()" class="col-md-1 three-panel-row show-pointer">
+      <div (click)="togglePreLeftBar()" class="col-md-1 show-pointer">
         <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
              xmlns="http://www.w3.org/2000/svg">
           <path
@@ -45,8 +45,24 @@
           </path>
         </svg>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-1" class="assign-panel-data">
+  <div class="left-side-middle">
+    <div class="row assign-panel2">
+      <div class="col-md-1">
+        <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
+             xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M15 8.482v4.679a.87.87 0 0 1-.875.839H1.875A.867.867 0 0 1 1 13.179V9.045c0-.048.024-.149.071-.304l2.554-6.205A.887.887 0 0 1 4.429 2h7.142a.84.84 0 0 1 .804.554l2.554 6.098c.016.05.03.183.04.347.022.376.031-.579.031-.517zm-1.84.517c.284-.002.493-.204.394-.49-.052-.15-.755-1.898-2.108-5.241A.474.474 0 0 0 11 3.002L5 3c-.289 0-.409.118-.498.268-.09.15-1.925 4.935-2.038 5.241-.113.307.123.49.34.49h1.625c.894-.005.988.41.97 1.01v.135c0 .455.141.836.587.872l3.968-.009c.425-.028.546-.507.546-1.007.028-.608.308-1.002 1.071-1h1.59zM5.5 5h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1zm0 2h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1z"
+            fill-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="col-md-2" class="assign-panel-data2">
+        <b>Open</b> <span class="unread-count"> &nbsp;{{totalCount}}</span>
+      </div>
+
+      <div class="col-md-2" class="assign-panel-data2">
         <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
              xmlns="http://www.w3.org/2000/svg">
           <path d="M4 6l4 4 4-4H4z"></path>
@@ -54,55 +70,33 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="left-side-middle">
-  <div class="row assign-panel2">
-    <div class="col-md-1">
-      <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-           xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M15 8.482v4.679a.87.87 0 0 1-.875.839H1.875A.867.867 0 0 1 1 13.179V9.045c0-.048.024-.149.071-.304l2.554-6.205A.887.887 0 0 1 4.429 2h7.142a.84.84 0 0 1 .804.554l2.554 6.098c.016.05.03.183.04.347.022.376.031-.579.031-.517zm-1.84.517c.284-.002.493-.204.394-.49-.052-.15-.755-1.898-2.108-5.241A.474.474 0 0 0 11 3.002L5 3c-.289 0-.409.118-.498.268-.09.15-1.925 4.935-2.038 5.241-.113.307.123.49.34.49h1.625c.894-.005.988.41.97 1.01v.135c0 .455.141.836.587.872l3.968-.009c.425-.028.546-.507.546-1.007.028-.608.308-1.002 1.071-1h1.59zM5.5 5h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1zm0 2h5a.5.5 0 1 1 0 1h-5a.5.5 0 0 1 0-1z"
-          fill-rule="evenodd"></path>
-      </svg>
-    </div>
-    <div class="col-md-2" class="assign-panel-data2">
-      <b>Open</b> <span class="unread-count"> &nbsp;{{totalCount}}</span>
-    </div>
+  <div *ngIf="mentionsData && mentionsData.length" class="left-side">
 
-    <div class="col-md-2" class="assign-panel-data2">
-      <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-           xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 6l4 4 4-4H4z"></path>
-      </svg>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="mentionsData && mentionsData.length" class="left-side">
-  <div (click)="inReplyDataAdd(i, mention.id_str)" *ngFor="let mention of mentionsData; let i = index"
-       [class.activeDiv]="inReplyIdString === mention.id_str" class="newDiv">
-    <div class="row">
-      <div class="col-md-2">
-        <img class="profile-pic" img-cache img-cache-src src="{{mention.user.profile_image_url_https}}"/>
-      </div>
-      <div class="col-md-10">
-        <div class="row">
-          <div class="col-md-10 col-sm-9 col-xs-9">
-            <b class="mention-name">{{mention.user.name}}</b>
-            <span *ngIf="mention.newMentionsCount && mention.newMentionsCount !== 0" class="f-s-13 f-w-450 black-4"
-                  style="background-color:#DC143C; color: white; border-radius: 50%; margin-left: 3px;
+    <div (click)="inReplyDataAdd(i, mention.id_str)" *ngFor="let mention of mentionsData; let i = index"
+         [class.activeDiv]="inReplyIdString === mention.id_str" class="newDiv">
+      <div class="row">
+        <div class="col-md-2">
+          <img class="profile-pic" img-cache img-cache-src src="{{mention.user.profile_image_url_https}}"/>
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-9">
+              <b class="mention-name">{{mention.user.name}}</b>
+              <span *ngIf="mention.newMentionsCount && mention.newMentionsCount !== 0" class="f-s-13 f-w-450 black-4"
+                    style="background-color:#DC143C; color: white; border-radius: 50%; margin-left: 3px;
               padding-right: 3px;"> {{mention.newMentionsCount}}</span>
-          </div>
-          <div class="col-md-1 col-sm-1 col-xs-1">
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
               <span class="mention-date">
                 {{dateConvertIntoShortFormat(mention.created_at)}}
               </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-12 mention-data">
-        {{truncateChar(mention.full_text)}}
+        <div class="col-md-12 col-sm-12 col-xs-12 mention-data">
+          {{truncateChar(mention.full_text)}}
+        </div>
       </div>
     </div>
   </div>
@@ -123,52 +117,6 @@
                 title="refresh mention replies">
             <a (click)="refreshRepliesData()"> <img height="16" src="{{apiUrl}}/new/refresh.png" width="16"/> </a>
           </span>
-          <span class="show-pointer m-l-3">
-            <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M8 16c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2zm0-6c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2zm0-6c-1.107 0-2-.893-2-2s.893-2 2-2 2 .893 2 2-.893 2-2 2z">
-              </path>
-            </svg>
-          </span>
-          &nbsp;
-          <span class="show-pointer m-l-3">
-            <img src="{{apiUrl}}/new/user2.png"/>
-          </span>
-          &nbsp;
-          <span class="show-pointer m-l-3 f-s-12">
-            You
-            <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 6l4 4 4-4H4z"></path>
-            </svg>
-          </span>
-          &nbsp;
-          <span class="show-pointer m-l-3">
-            <svg class="interface-icon o__standard" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.99 3.96l.622 2.22.022.078.032.075a1.528 1.528 0 0 0 1.406.956h2.205l-1.666 1.1a1.457 1.457 0 0 0-.74 1.308 1.314 1.314 0 0 0 .018.217v.053l.065.189.776 2.277-1.799-1.46a1.502 1.502 0 0 0-1.865.017l-1.713 1.466.676-2.203a1.332 1.332 0 0 0 .1-.519v-.031l-.002-.031a1.635 1.635 0 0 0-.53-1.126l-.071-.066-.08-.053-1.734-1.138h2.214a1.483 1.483 0 0 0 1.33-.832l.022-.044.039-.077.012-.035.019-.043.022-.079.62-2.219m-.012-2.64a.677.677 0 0 0-.336.089.822.822 0 0 0-.268.375l-.07.179-1.09 3.893a.218.218 0 0 1-.013.03l-.022.042a.278.278 0 0 1-.253.162H2.16c-.303 0-.839.143-.839.66l.001.003a.789.789 0 0 0 .446.696L4.787 9.43a.444.444 0 0 1 .143.304c0 .035 0 .053-.018.071l-1.18 3.839a1.324 1.324 0 0 0-.054.357.633.633 0 0 0 .555.661h.07a.97.97 0 0 0 .607-.25l2.946-2.518a.258.258 0 0 1 .162-.036.229.229 0 0 1 .142.036l3.126 2.536a.96.96 0 0 0 .57.25h.019a.638.638 0 0 0 .607-.661.821.821 0 0 0-.071-.375L11.09 9.769v-.036c-.018 0-.018-.018-.018-.036a.26.26 0 0 1 .143-.268l3-1.982a1.174 1.174 0 0 0 .375-.411.612.612 0 0 0 .089-.304c0-.268-.179-.446-.536-.607-.16-.018-.267-.036-.321-.036h-3.75a.347.347 0 0 1-.304-.232l-1.09-3.893-.054-.179a.37.37 0 0 0-.107-.179.555.555 0 0 0-.535-.286z">
-              </path>
-            </svg>
-          </span>
-          &nbsp;
-          <span class="show-pointer m-l-3">
-            <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1.339 7.982c0-3.661 3-6.661 6.661-6.661 1.839 0 3.411.643 4.732 1.946 1.304 1.321 1.946 2.893 1.946 4.714 0 3.696-2.982 6.696-6.679 6.696-1.839 0-3.411-.661-4.696-1.982-1.304-1.286-1.964-2.857-1.964-4.714zm1.661 0c0 2.732 2.268 5 5 5 2.786 0 5-2.214 5-5 0-2.804-2.196-5-5-5-2.768 0-5 2.232-5 5zm4.321.268V4.643c0-.143.125-.286.286-.286h.714c.161 0 .286.143.286.286v3.054l2.643 1.804c.089.054.143.107.143.196a.287.287 0 0 1-.054.161l-.393.625c-.054.054-.107.107-.196.125h-.054l-.143-.036-3.071-2.071-.071-.054a.285.285 0 0 1-.089-.196z">
-              </path>
-            </svg>
-          </span>
-          &nbsp;
-          <span class="show-pointer m-l-3">
-            <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M13.933 3.09a.35.35 0 0 0-.495.026l-7.236 8.012-3.757-3.393a.35.35 0 0 0-.495.025l-.86.951a.35.35 0 0 0 .026.495l4.96 4.48a.34.34 0 0 0 .17.082.346.346 0 0 0 .34-.107l8.324-9.217a.35.35 0 0 0-.026-.494l-.951-.86z">
-              </path>
-            </svg>
-          </span>
         </div>
       </div>
     </div>
@@ -187,9 +135,7 @@
 
         <ol class="discussion">
           <li *ngFor="let mention of inReplyData; let i = index">
-
             <div class="messages-flex-parent">
-
               <div
                 [ngClass]="{'other': userData.screen_name !== mention.user.screen_name , 'self': userData.screen_name === mention.user.screen_name }"
                 class="messages-flex">
@@ -210,7 +156,6 @@
                     <span *ngIf="postTweetMessage && postTweetStatus">
                       <img height="22" src="{{apiUrl + '/success.png'}}" width="22"/>
                     </span>
-
                   </span>
                 </div>
 
@@ -230,12 +175,10 @@
                   {{dateConvertIntoShortFormat(mention.created_at)}}
                 </span>
               </div>
+
             </div>
-
-
           </li>
         </ol>
-
       </div>
     </div>
 
@@ -249,23 +192,8 @@
           Reply
         </span>
         <span style="padding-left:20px">
-          <!-- <span> -->
           &nbsp;
         </span>
-        <span class="f-w-450 show-pointer reply-class op-7 black-4">
-          <!-- <span> -->
-          Note
-        </span>
-
-        <span class="show-pointer reply-class op-7" style="float: right !important;">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M1.321 7.982c0-3.661 2.982-6.661 6.679-6.661 1.839 0 3.411.643 4.732 1.946 1.304 1.321 1.946 2.893 1.946 4.714 0 3.696-2.982 6.696-6.679 6.696-1.857 0-3.429-.661-4.714-1.982-1.304-1.286-1.964-2.857-1.964-4.714zm4.947-1.946l.179-.125c.018 0 .054-.036.143-.089.071-.054.125-.071.161-.089.214-.125.446-.196.714-.25.161-.018.268-.036.321-.036.589 0 .768.214.768.643 0 .304-.143.554-.429.786l-.446.411a3.07 3.07 0 0 0-.464.536c-.214.286-.393.804-.393 1.393v.179c0 .089 0 .143.018.179l.018.179h1.536v-.179c0-.429.161-.821.482-1.161l.232-.196a1.67 1.67 0 0 1 .232-.196 2.38 2.38 0 0 0 .5-.464c.304-.375.554-.893.554-1.661 0-1.232-.911-2.018-2.357-2.018-.875 0-1.661.232-2.357.696l-.125.089zm.661 5.946c.196.196.429.286.732.286.661 0 1.089-.393 1.089-1.036 0-.625-.393-1-1.089-1-.625 0-1.036.375-1.036 1 0 .304.107.554.304.75z">
-            </path>
-          </svg>
-        </span>
-
-        <!-- Reply -->
 
       </div>
 
@@ -282,125 +210,8 @@
       </div>
 
       <div class="middle-side-bottom3">
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M2 14V2c0-.554.446-1 1-1h10c.554 0 1 .446 1 1v12c0 .554-.446 1-1 1H3c-.554 0-1-.446-1-1zM3.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-9zM5 5h6V4H5v1zm0 3h6V7H5v1zm0 3h4v-1H5v1z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M3 13.998V2.097C3 1.492 3.5 1 4.142 1h7.716C12.48 1 13 1.492 13 2.097v11.818c0 1.08-1.085 1.329-1.574.888L8.164 12.08c-.123-.075-.152-.075-.275 0L4.64 14.803c-.725.484-1.625-.023-1.641-.805zM4.328 2C4.154 2 4 2.133 4 2.3v11.615c2.146-1.795 3.308-2.755 3.485-2.88.266-.187.86-.184 1.095 0 .156.122 1.296 1.11 3.42 2.963V2.3c0-.166-.135-.299-.326-.299H4.328zM4 4h8v1H4V4z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M8 0c4.446 0 8 3.554 8 8s-3.554 8-8 8-8-3.554-8-8 3.554-8 8-8zm0 1C4.078 1 1 4.078 1 8s3.078 7 7 7 7-3.078 7-7-3.078-7-7-7zM6 8c-.552 0-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5S6.552 8 6 8zm4 0c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8zm1.75 2a.233.233 0 0 1 .25.25c0 .43-1.5 2.417-4 2.417S4 10.68 4 10.25a.233.233 0 0 1 .25-.25c.462 0 1.374 1.333 3.75 1.333S11.288 10 11.75 10z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M5.957 9.018v-.934H3v.839h2.11v.185c0 1.296-.786 3.01-2.008 3.01-1.374 0-2.226-2.188-2.226-4.12 0-1.907.867-4.117 2.221-4.117 1.013 0 1.7.96 1.994 1.996h.866C5.711 4.36 4.612 3 3.097 3 1.227 3 0 5.576 0 7.997 0 10.45 1.208 13 3.097 13c1.748 0 2.86-2.092 2.86-3.982zM8.99 13V3h-.98v10h.978zm3.038 0V7.92h3.648v-.882h-3.648V3.892H16V3h-5v10h1.027z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M13.833 13H2.167A1.162 1.162 0 0 1 1 11.842V3.158C1 2.518 1.522 2 2.167 2h11.666C14.478 2 15 2.518 15 3.158v8.684c0 .64-.522 1.158-1.167 1.158zM2.4 3a.4.4 0 0 0-.4.4v8.2c0 .22.18.4.4.4h11.2a.4.4 0 0 0 .4-.4V3.4a.4.4 0 0 0-.4-.4H2.4zm7.625 2.005a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm4.49 6.495a.503.503 0 0 1-.311-.106l-3.305-2.601-1.31 1.03.41.365a.43.43 0 0 1 .014.64.51.51 0 0 1-.684.014L5.68 7.594l-3.845 3.765a.509.509 0 0 1-.686.015.432.432 0 0 1-.016-.638l4.18-4.093a.497.497 0 0 1 .34-.141.445.445 0 0 1 .345.124l2.886 2.57 1.703-1.34a.51.51 0 0 1 .624 0l3.617 2.847c.204.16.23.446.058.636a.5.5 0 0 1-.37.161z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M14.937 5.087c-.048-.3-.164-.598-.367-.942l-.029-.037a6.169 6.169 0 0 0-.297-.37l-1.89-1.98a2.402 2.402 0 0 0-1.273-.694 2.336 2.336 0 0 0-1.071-.002c-.489.084-.936.33-1.258.688l-.912.93-6.026 6.31a2.905 2.905 0 0 0-.775 1.58 3.13 3.13 0 0 0 0 .985c.05.34.155.665.313.972.129.22.29.439.468.637.1.1.215.197.331.28.354.254.75.43 1.178.518a2.82 2.82 0 0 0 .915-.001 2.603 2.603 0 0 0 1.504-.8l5.589-5.856c.098-.101.183-.208.254-.321l.012-.024a.599.599 0 0 0 .049-.105c.184-.412.229-.845.132-1.249a.978.978 0 0 0-.113-.306c-.082-.18-.177-.364-.318-.49a1.594 1.594 0 0 0-.473-.358c-.075-.037-.153-.062-.229-.087l-.099-.032a1.652 1.652 0 0 0-1.124.117.422.422 0 0 0-.131.068c-.14.1-.249.18-.32.265l-4.29 4.472-.069.084-.338.355a.459.459 0 0 0-.001.645.425.425 0 0 0 .607 0l.249-.283L9.546 5.43a.872.872 0 0 1 1.198-.01c.321.343.324.922.006 1.239l-5.584 5.829c-.604.645-1.581.791-2.32.348a1.836 1.836 0 0 1-.443-.36 1.852 1.852 0 0 1-.464-.794c-.226-.74-.061-1.483.454-2.037l6.933-7.252c.513-.515 1.258-.657 1.899-.359.191.085.366.204.517.351L13.666 4.4c.161.183.281.352.348.59.283.625.142 1.39-.348 1.904l-6.128 6.393c-.085.133-.07.402.076.547.079.084.187.13.305.13h.001a.417.417 0 0 0 .3-.125l6.029-6.294c.356-.367.592-.826.682-1.327l.034-.155a2.526 2.526 0 0 0-.028-.976">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options show-pointer">
-          <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M14 11.5a.5.5 0 0 1-.5.5H12v1.5a.5.5 0 0 1-1 0V12H9.5a.5.5 0 0 1 0-1H11V9.5a.5.5 0 0 1 1 0V11h1.5a.5.5 0 0 1 .5.5zM13.25 2a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5A.75.75 0 0 1 9 6.25v-3.5A.75.75 0 0 1 9.75 2h3.5zM10 6h3V3h-3v3zM6.25 2a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5A.75.75 0 0 1 2 6.25v-3.5A.75.75 0 0 1 2.75 2h3.5zM3 6h3V3H3v3zm3.25 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1-.75-.75v-3.5A.75.75 0 0 1 2.75 9h3.5zM3 13h3v-3H3v3z">
-            </path>
-          </svg>
-        </span>
-
-        <span class="reply-class-options">
-          <img height="16" src="{{apiUrl}}/new/featured-content.png" style="margin-top:-3.5px;" width="16">
-        </span>
-
         <span class="" style="float: right; margin-top: -2px;">
           <button (click)="postTweet()" class="btn btn-primary f-w-450">Send</button>
-        </span>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<div class="right-side-parent">
-  <div *ngIf="!inReplyIdStringPresent">
-    <div class="userDiv" style="padding:10px">
-      Please Select any mention.
-    </div>
-  </div>
-  <div *ngIf="inReplyIdStringPresent && inReplyData && inReplyData.length">
-    <div class="right-side">
-      <div class="">
-        <div class="">
-          <div class="row" style="text-align: center;">
-            <div class="col-md-12">
-              <img src="{{inReplyData[0].user.profile_image_url_https.replace('_normal.','.')}}"
-                   style="border-radius: 50%; height: 50px; width: 50px;">
-            </div>
-          </div>
-
-          <div class="row f-s-16 f-w-450" style="text-align:center; padding: 10px; ">
-            <div class="col-md-12">
-              {{inReplyData[0].user.name}}
-            </div>
-          </div>
-
-          <div class="row user-details-type">
-            <div class="">
-              User
-            </div>
-          </div>
-        </div>
-        <div class="show-pointer" style="position: absolute;top: 3px;right: 3px;">
-          <div class="" style="transform: rotate(90deg);">
-            <svg class="interface-icon o__standard" height="16" viewBox="0 0 16 16" width="16"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.5 9.5A1.51 1.51 0 0 1 2 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5zm4.5 0A1.51 1.51 0 0 1 6.5 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5zm4.5 0A1.51 1.51 0 0 1 11 8c0-.839.679-1.5 1.5-1.5.839 0 1.5.661 1.5 1.5 0 .821-.661 1.5-1.5 1.5z">
-              </path>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <!-- <br /> -->
-
-      <div class="layout-user-details">
-        <span class="">
-          <svg class="interface-icon" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M4.304 4.964c0-1.982 1.661-3.643 3.643-3.643h.143c.982 0 1.839.357 2.571 1.071.696.732 1.054 1.589 1.054 2.571 0 .446-.196 1.232-.571 2.357-.643 1.768-1.464 3.75-3.125 7.357-.786-1.661-1.411-3.036-1.857-4.125-1.018-2.286-1.857-4.679-1.857-5.589zm2.517.84c.339.339.732.5 1.196.5a1.67 1.67 0 0 0 1.661-1.661c0-.446-.161-.857-.482-1.196a1.72 1.72 0 0 0-1.179-.464c-.929 0-1.679.714-1.679 1.661 0 .482.161.857.482 1.161z">
-            </path>
-          </svg>
         </span>
       </div>
     </div>

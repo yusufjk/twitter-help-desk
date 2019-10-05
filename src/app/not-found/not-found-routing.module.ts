@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { NotFoundComponent } from './not-found.component'
+import {NotFoundComponent} from './not-found.component'
+
 const routes: Routes = [
   {
-    path : '',
+    path: '',
     component: NotFoundComponent
   }
 ];
@@ -14,4 +15,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class NotFoundRoutingModule { }
+export class NotFoundRoutingModule {
+}

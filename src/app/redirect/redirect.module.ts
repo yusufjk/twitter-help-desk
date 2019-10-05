@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { RedirectRoutingModule } from './redirect-routing.module';
-import { RedirectComponent } from './redirect.component';
+import {RedirectRoutingModule} from './redirect-routing.module';
+import {RedirectComponent} from './redirect.component';
 
 @NgModule({
   declarations: [RedirectComponent],
@@ -11,4 +11,5 @@ import { RedirectComponent } from './redirect.component';
     RedirectRoutingModule
   ]
 })
-export class RedirectModule { }
+export class RedirectModule {
+}

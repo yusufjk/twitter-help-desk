@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { LogoutComponent } from './logout.component'
+import {LogoutComponent} from './logout.component'
+
 const routes: Routes = [
   {
     path: '',
@@ -13,4 +14,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LogoutRoutingModule { }
+export class LogoutRoutingModule {
+}

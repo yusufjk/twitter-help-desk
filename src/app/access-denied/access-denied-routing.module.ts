@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { AccessDeniedComponent } from './access-denied.component'
+import {AccessDeniedComponent} from './access-denied.component'
 
 const routes: Routes = [
   {
@@ -15,4 +15,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class AccessDeniedRoutingModule { }
+export class AccessDeniedRoutingModule {
+}
