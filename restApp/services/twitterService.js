@@ -1,30 +1,30 @@
-'use strict'
+'use strict';
 
-/* 
-    Twitter service include twitter related functions 
+/*
+    Twitter service include twitter related functions
 */
 
 /* requiring models */
-const TwitterTokenDetailsModel = require('../models/twitterTokenDetailsModel')
-const TwitterMentionsModel = require('../models/twitterMentionsModel')
+const TwitterTokenDetailsModel = require('../models/twitterTokenDetailsModel');
+const TwitterMentionsModel = require('../models/twitterMentionsModel');
 
 /* requring utilites */
-const CommonUtilities = require('../utilities/commonUtilities')
+const CommonUtilities = require('../utilities/commonUtilities');
 
 /* importing third party modules */
-const mongoose = require('mongoose')
-const twitter = require('twitter')
-const config = require('config')
-const crypto = require('crypto')
-const request = require('request')
+const mongoose = require('mongoose');
+const twitter = require('twitter');
+const config = require('config');
+const crypto = require('crypto');
+const request = require('request');
 const oauth_nonce = require('oauth_nonce');
-const async = require('async')
+const async = require('async');
 
-var TwitterService = module.exports
+var TwitterService = module.exports;
 var OAuth = require('oauth').OAuth;
-var twitterBearerToken
+var twitterBearerToken;
 
-var streamData = {}
+var streamData = {};
 
 var oa = new OAuth(
   "https://api.twitter.com/oauth/request_token",
@@ -32,7 +32,7 @@ var oa = new OAuth(
   config.twitter.consumerKey,
   config.twitter.consumerSecret,
   "1.0",
-  "https://rich-panel-task.herokuapp.com/auth/twitter/callback2",
+  config.twitter.twitterCallbackUrl,
   "HMAC-SHA1"
 );
 
@@ -40,8 +40,8 @@ var oa = new OAuth(
 TwitterService.updateMainMention2 = function () {
   TwitterMentionsModel.find().then((fullData) => {
     async.forEachSeries(fullData, function (ele, cb) {
-      let mainMention = false
-      console.log(ele.id_str, ele.maintwittweStatusIdStr)
+      let mainMention = false;
+      console.log(ele.id_str, ele.maintwittweStatusIdStr);
       if (ele.in_reply_to_status_id_str == "") {
         if (ele.id_str === ele.maintwittweStatusIdStr) {
           mainMention = true
@@ -69,7 +69,7 @@ TwitterService.updateMainMention2 = function () {
     })
   })
 
-}
+};
 
 /* update Twitter main mention field */
 /* for old data */
@@ -85,20 +85,20 @@ TwitterService.updateMainMention = function () {
       if (allUpdateError) {
         console.log('%%%all update error')
       } else {
-        console.log('wait for previous update')
+        console.log('wait for previous update');
         setTimeout(function () {
-          console.log('update success *********** ')
+          console.log('update success *********** ');
           /* update all data */
           let findQuery = {
             $where: "this.id_str === this.maintwittweStatusIdStr"
-          }
+          };
 
           /* update query */
           let updateQuery = {
             $set: {
               mainMention: true
             }
-          }
+          };
 
           /* update all documents */
           TwitterMentionsModel.update(findQuery, updateQuery, {
@@ -113,23 +113,23 @@ TwitterService.updateMainMention = function () {
         }, 10000)
       }
     })
-}
+};
 
 
 /* twitter stream */
 TwitterService.streaming = function (userId, screenName, token, tokenSecret) {
-  console.log('checking stream')
+  console.log('checking stream');
   if (streamData.userId) {
-    console.log('returned from stream')
+    console.log('returned from stream');
     return
   }
-  console.log('in stream')
-  stream[userId] = true
+  console.log('in stream');
+  stream[userId] = true;
 
-  let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+  let client = TwitterService.buildTwitterConfig(token, tokenSecret);
   var stream = client.stream('statuses/filter', {
     track: screenName
-  })
+  });
 
   stream.on('data', function (event) {
     console.log('$event ', event);
@@ -141,23 +141,23 @@ TwitterService.streaming = function (userId, screenName, token, tokenSecret) {
   stream.on('disconnection', function (event) {
     streamData[userId] = false
   })
-}
+};
 
 /* display twitter mentions */
 TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
-  console.log('in display twitter mentions')
+  console.log('in display twitter mentions');
   /* getting user id */
-  let userId = apiRequest.user._id ? apiRequest.user._id : null
-  let page = apiRequest.query.page ? apiRequest.query.page : 1
-  let limit = config.displayTwitterMentionsLimit ? config.displayTwitterMentionsLimit : 10
+  let userId = apiRequest.user._id ? apiRequest.user._id : null;
+  let page = apiRequest.query.page ? apiRequest.query.page : 1;
+  let limit = config.displayTwitterMentionsLimit ? config.displayTwitterMentionsLimit : 10;
 
   /* get getByUserId */
-  let getByStatusString
+  let getByStatusString;
   if (apiRequest.query.getByStatusString) {
     getByStatusString = apiRequest.query.getByStatusString
   }
 
-  console.log('user data ', userId, page, limit)
+  console.log('user data ', userId, page, limit);
 
   /* checking required fields */
   if (!userId) {
@@ -171,7 +171,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
   /* preparing query */
   let query = {
     userId: mongoose.Types.ObjectId(userId)
-  }
+  };
 
   // console.log('query ', query)
 
@@ -196,7 +196,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
     if (data.status === false) {
       return apiResponse.status(202).send({
         statusCode: 'TWITTER-TOKEN-ERROR',
-        message: 'Twitter tokesn was expired. Please login',
+        message: 'Twitter token was expired. Please login',
         data: {}
       })
     }
@@ -220,7 +220,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
 
     /* getting mentions */
     TwitterService.getTwitterMentsionsFromDatabase(query, {}, page, limit, function (mentionsGettingError, mentionsGettingMessage, mentionsGettingData) {
-      console.log('mentions Getting message ', mentionsGettingMessage)
+      console.log('mentions Getting message ', mentionsGettingMessage);
       if (mentionsGettingError) {
         return apiResponse.status(500).send({
           statusCode: 'INTERNAL-SERVER-ERROR',
@@ -231,7 +231,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
 
       /* getting twitter mentions count */
       TwitterService.getTwitterMentsionsCountFromDatabase(query, function (mentionsCountGettingError, mentionsCountGettingMessage, mentionsCountGettingData) {
-        console.log('mentions count Getting message ', mentionsCountGettingMessage)
+        console.log('mentions count Getting message ', mentionsCountGettingMessage);
         if (mentionsCountGettingError) {
           return apiResponse.status(500).send({
             statusCode: 'INTERNAL-SERVER-ERROR',
@@ -250,7 +250,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
               profile_image_url_https: data.profile_image_url_https,
               screen_name: data.screen_name
             }
-          }
+          };
 
           return apiResponse.status(200).send({
             statusCode: 'SUCCESS',
@@ -259,9 +259,9 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
           })
         }
 
-        let newData = []
+        let newData = [];
         if (mentionsGettingData && mentionsGettingData.length) {
-          let nData = JSON.parse(JSON.stringify(mentionsGettingData))
+          let nData = JSON.parse(JSON.stringify(mentionsGettingData));
 
           nData.forEach((ele) => {
             if (ele.maintwittweStatusIdStr === ele.id_str) {
@@ -278,7 +278,7 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
             profile_image_url_https: data.profile_image_url_https,
             screen_name: data.screen_name
           }
-        }
+        };
 
         return apiResponse.status(200).send({
           statusCode: 'SUCCESS',
@@ -290,20 +290,20 @@ TwitterService.displayTwitterMentions = function (apiRequest, apiResponse) {
     })
 
   })
-}
+};
 
 /* getting twitter mentions by query and page*/
 TwitterService.getTwitterMentsionsFromDatabase = function (query, projectFields, page, limit, callback) {
   /* adjusting parameters */
-  projectFields = projectFields ? projectFields : {}
+  projectFields = projectFields ? projectFields : {};
 
   /* calculating skip */
-  let skip = (page - 1) * limit
+  let skip = (page - 1) * limit;
 
   /* preparing sort filter */
   let sortFilter = {
     created_at: -1
-  }
+  };
 
   if (query.maintwittweStatusIdStr) {
     sortFilter = {
@@ -318,13 +318,13 @@ TwitterService.getTwitterMentsionsFromDatabase = function (query, projectFields,
       return callback(null, 'Sucesssfully get data', data)
     }
   })
-}
+};
 
 /* getting count of twitter mentions */
 TwitterService.getTwitterMentsionsCountFromDatabase = function (query, callback) {
   TwitterMentionsModel.count(query, function (error, data) {
     if (error) {
-      console.log('count error ', error)
+      console.log('count error ', error);
       return callback(error, 'Error while getting twitter mentions count', {})
     } else {
       return callback(null, 'Sucecssfully get twitter mentions count', {
@@ -332,13 +332,13 @@ TwitterService.getTwitterMentsionsCountFromDatabase = function (query, callback)
       })
     }
   })
-}
+};
 
 TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
   /* preparing query */
   let query = {
     userId: mongoose.Types.ObjectId(userId)
-  }
+  };
 
   /* getting twitter token details into database */
   TwitterTokenDetailsModel.findOne(query, function (error, data) {
@@ -358,20 +358,20 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
       })
     }
 
-    let token = data.token
-    let tokenSecret = data.tokenSecret
+    let token = data.token;
+    let tokenSecret = data.tokenSecret;
 
     /* checking token validation */
     TwitterService.validatingTwitterTokens(token, tokenSecret, function (validatingError, validatingErrorCode, validatedmessage, validatedTokenData) {
       if (validatingError) {
         if (validatingErrorCode.code === 89) {
           /* setting status to false */
-          data.status = false
-          console.log('error 1')
+          data.status = false;
+          console.log('error 1');
           /* insert into database as invalid tokens.. need to re login*/
           // data.save({ userId: userId }, { $set: { status: false } }, function (twitterTokenInsertError, twitterInsertData) {
           return data.save(function (twitterTokenInsertError, twitterInsertData) {
-            console.log('error 2', twitterTokenInsertError)
+            console.log('error 2', twitterTokenInsertError);
 
             return callback({
               statusCode: 'TWITTER-TOKEN-ERROR',
@@ -392,17 +392,17 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
       let parameters = {
         tweet_mode: 'extended',
         count: 200
-      }
+      };
 
       /* adding since_id */
       if (data.lastSinceId) {
         parameters.since_id = data.lastSinceId
       }
 
-      console.log('parameters ', parameters)
+      console.log('parameters ', parameters);
 
       /* building twitter config */
-      let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+      let client = TwitterService.buildTwitterConfig(token, tokenSecret);
 
       /* getting mentions */
       client.get('statuses/mentions_timeline', parameters, function (error, mentionsData) {
@@ -415,7 +415,7 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
         }
 
         if(!mentionsData || mentionsData.length === 0){
-          console.log('no mentions found ', mentionsData)
+          console.log('no mentions found ', mentionsData);
           return callback({
             statusCode: 'SUCCESS',
             message: 'Sucessfully get mentions',
@@ -423,30 +423,30 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
           })
         }
 
-        console.log('twitter before text length ', mentionsData.length)
+        console.log('twitter before text length ', mentionsData.length);
         mentionsData.forEach((ele) => {
           console.log(ele.full_text)
-        })
+        });
 
         /* inserting into database */
         TwitterService.insertMentionsIntoDatabase(data.userId, mentionsData, null, function (mentionsInsertError, mentionsInsertMessage, mentionsInsertiData) {
-          console.log('--> mentiones data length', mentionsData.length, mentionsInsertiData.length)
+          console.log('--> mentiones data length', mentionsData.length, mentionsInsertiData.length);
 
-          console.log('twitter after text text ')
+          console.log('twitter after text text ');
           mentionsData.forEach((ele) => {
             console.log(ele.full_text)
-          })
+          });
 
           if (mentionsData.length > 0) {
             /* insert last sinceId */
 
-            data.lastSinceId = mentionsData[mentionsData.length - 1].id
-            console.log('last since id ', data.lastSinceId)
-            console.log('last since id2 ', mentionsData[0].id)
+            data.lastSinceId = mentionsData[mentionsData.length - 1].id;
+            console.log('last since id ', data.lastSinceId);
+            console.log('last since id2 ', mentionsData[0].id);
 
             data.save(function (dataSaveError, dataSaveData) {
 
-              console.log("all done", dataSaveError)
+              console.log("all done", dataSaveError);
               return callback({
                 statusCode: 'SUCCESS',
                 message: 'Sucessfully get mentions',
@@ -460,12 +460,12 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
     })
     /* end of twitter token checking */
   })
-}
+};
 
 /* fetch mentions from twitter api service */
 TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
   /* getting user id */
-  let userId = apiRequest.user._id ? apiRequest.user._id : null
+  let userId = apiRequest.user._id ? apiRequest.user._id : null;
 
   /* checking required fields */
   if (!userId) {
@@ -479,7 +479,7 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
   /* preparing query */
   let query = {
     userId: mongoose.Types.ObjectId(userId)
-  }
+  };
 
   /* getting twitter token details into database */
   TwitterTokenDetailsModel.findOne(query, function (error, data) {
@@ -499,20 +499,20 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
       })
     }
 
-    let token = data.token
-    let tokenSecret = data.tokenSecret
+    let token = data.token;
+    let tokenSecret = data.tokenSecret;
 
     /* checking token validation */
     TwitterService.validatingTwitterTokens(token, tokenSecret, function (validatingError, validatingErrorCode, validatedmessage, validatedTokenData) {
       if (validatingError) {
         if (validatingErrorCode.code === 89) {
           /* setting status to false */
-          data.status = false
-          console.log('error 1')
+          data.status = false;
+          console.log('error 1');
           /* insert into database as invalid tokens.. need to re login*/
           // data.save({ userId: userId }, { $set: { status: false } }, function (twitterTokenInsertError, twitterInsertData) {
           return data.save(function (twitterTokenInsertError, twitterInsertData) {
-            console.log('error 2', twitterTokenInsertError)
+            console.log('error 2', twitterTokenInsertError);
             return apiResponse.status(400).send({
               statusCode: 'TWITTER-TOKEN-ERROR',
               message: 'Twitter tokesn was expired. Please login',
@@ -532,7 +532,7 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
       let parameters = {
         tweet_mode: 'extended',
         count: 200
-      }
+      };
 
       /* adding since_id */
       if (data.lastSinceId) {
@@ -540,7 +540,7 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
       }
 
       /* building twitter config */
-      let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+      let client = TwitterService.buildTwitterConfig(token, tokenSecret);
 
       /* getting mentions */
       client.get('statuses/mentions_timeline', parameters, function (error, mentionsData) {
@@ -556,13 +556,13 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
         TwitterService.insertMentionsIntoDatabase(data.userId, mentionsData, null, function (mentionsInsertError, mentionsInsertMessage, mentionsInsertiData) {
           if (mentionsData.length > 0) {
             /* insert last sinceId */
-            data.lastSinceId = mentionsData[0].id
+            data.lastSinceId = mentionsData[0].id;
 
             data.save(function (dataSaveError, dataSaveData) {
               console.log("all done", dataSaveError)
             })
           }
-        })
+        });
 
         return apiResponse.status(200).send({
           statusCode: 'SUCCESS',
@@ -574,7 +574,7 @@ TwitterService.getMentionsFromTwitter = function (apiRequest, apiResponse) {
     })
     /* end of twitter token checking */
   })
-}
+};
 
 /* getting mentions by user id */
 /* fetch mentions from twitter api service */
@@ -583,7 +583,7 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
   /* preparing query */
   let query = {
     userId: mongoose.Types.ObjectId(userId)
-  }
+  };
 
   /* getting twitter token details into database */
   TwitterTokenDetailsModel.findOne(query, function (error, data) {
@@ -595,15 +595,15 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
       return callback('SUCCESS', 'No twitter accounts found', {})
     }
 
-    let token = data.token
-    let tokenSecret = data.tokenSecret
+    let token = data.token;
+    let tokenSecret = data.tokenSecret;
 
     /* checking token validation */
     TwitterService.validatingTwitterTokens(token, tokenSecret, function (validatingError, validatingErrorCode, validatedmessage, validatedTokenData) {
       if (validatingError) {
         if (validatingErrorCode.code === 89) {
           /* setting status to false */
-          data.status = false
+          data.status = false;
           /* insert into database as invalid tokens.. need to re login*/
           return data.save({
             userId: userId
@@ -623,7 +623,7 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
       let parameters = {
         tweet_mode: 'extended',
         count: 200
-      }
+      };
 
       /* adding since_id */
       if (data.lastSinceId) {
@@ -631,7 +631,7 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
       }
 
       /* building twitter config */
-      let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+      let client = TwitterService.buildTwitterConfig(token, tokenSecret);
 
       /* getting mentions */
       client.get('statuses/mentions_timeline', parameters, function (error, mentionsData) {
@@ -643,7 +643,7 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
         TwitterService.insertMentionsIntoDatabase(data.userId, mentionsData, null, function (mentionsInsertError, mentionsInsertMessage, mentionsInsertiData) {
           if (mentionsData.length > 0) {
             /* insert last sinceId */
-            data.lastSinceId = mentionsData[0].id
+            data.lastSinceId = mentionsData[0].id;
 
             data.save(function (dataSaveError, dataSaveData) {
               // console.log("all done", dataSaveError)
@@ -656,42 +656,42 @@ TwitterService.getMentionsFromTwitterByUserId = function (userId, callback) {
     })
     /* end of twitter token checking */
   })
-}
+};
 
 /* inserting data into twitter mentions database */
 TwitterService.insertMentionsIntoDatabase = function (userId, data, inReplyToStatusId, callback) {
-  console.log('started insertion of mentions in database')
+  console.log('started insertion of mentions in database');
   if (data.length === 0) {
     return (null, 'Inserted successfully.', {})
   }
-  let totalCount = data.length
+  let totalCount = data.length;
   let insertionCompleted = 0;
-  let startTime = Date.now()
-  let newMentions = []
+  let startTime = Date.now();
+  let newMentions = [];
 
   // console.log("count ", totalCount)
 
   /* reversing the data */
-  data = data.reverse()
-  let i = 0
+  data = data.reverse();
+  let i = 0;
   async.eachSeries(data, function (element, inCallback) {
-    console.log('\n --->twitter text ', element.full_text, i)
+    console.log('\n --->twitter text ', element.full_text, i);
     /* adding extra parameters */
     /* need to add twitterId */
-    element.userId = userId
+    element.userId = userId;
 
-    let skipCall = false
+    let skipCall = false;
 
     /* adjusting twitter mention data */
-    element.created_at = new Date(element.created_at).getTime()
-    element.in_reply_to_status_id = element.in_reply_to_status_id ? element.in_reply_to_status_id : 0
-    element.in_reply_to_status_id_str = element.in_reply_to_status_id_str ? element.in_reply_to_status_id_str : ""
-    element.in_reply_to_user_id = element.in_reply_to_user_id ? element.in_reply_to_user_id : 0
-    element.in_reply_to_user_id_str = element.in_reply_to_user_id_str ? element.in_reply_to_user_id_str : ""
+    element.created_at = new Date(element.created_at).getTime();
+    element.in_reply_to_status_id = element.in_reply_to_status_id ? element.in_reply_to_status_id : 0;
+    element.in_reply_to_status_id_str = element.in_reply_to_status_id_str ? element.in_reply_to_status_id_str : "";
+    element.in_reply_to_user_id = element.in_reply_to_user_id ? element.in_reply_to_user_id : 0;
+    element.in_reply_to_user_id_str = element.in_reply_to_user_id_str ? element.in_reply_to_user_id_str : "";
 
     /* if in reply status status id present */
     if (inReplyToStatusId) {
-      element.maintwittweStatusIdStr = inReplyToStatusId
+      element.maintwittweStatusIdStr = inReplyToStatusId;
       skipCall = true
     }
     /* getting twitter mention main status id */
@@ -733,13 +733,13 @@ TwitterService.insertMentionsIntoDatabase = function (userId, data, inReplyToSta
           } else {
             // console.log('completed ', insertionCompleted)
             // console.log('twitter mentions inserted data ', error)
-            insertionCompleted++
+            insertionCompleted++;
             if (ndata.insertedDate && ndata.insertedDate && ndata.insertedDate > startTime) {
               newMentions.push(ndata)
             }
           }
 
-          i++
+        i++;
           inCallback(null)
         })
 
@@ -747,12 +747,12 @@ TwitterService.insertMentionsIntoDatabase = function (userId, data, inReplyToSta
   }, function () {
     callback(null, 'Successfully inserted', newMentions)
   });
-}
+};
 
 /* update twitter status */
 TwitterService.updateTwitterAccountStatus = function (apiRequest, apiResponse) {
   /* user data  */
-  let userData = apiRequest.user
+  let userData = apiRequest.user;
   if (!userData._id) {
     return apiResponse.status(200).send({
       message: 'no user found'
@@ -767,7 +767,7 @@ TwitterService.updateTwitterAccountStatus = function (apiRequest, apiResponse) {
         status: false
       }
     }, function (error, data) {
-      console.log('error ', error)
+    console.log('error ', error);
       if (error) {
         return apiResponse.status(200).send({
           message: 'error found'
@@ -778,7 +778,7 @@ TwitterService.updateTwitterAccountStatus = function (apiRequest, apiResponse) {
         message: 'message done'
       })
     })
-}
+};
 
 /* getting twitter mention */
 TwitterService.getTwitterMentionFromDatabase = function (skipCall, query, callback) {
@@ -794,29 +794,29 @@ TwitterService.getTwitterMentionFromDatabase = function (skipCall, query, callba
 
     return callback(null, 'Successfully get data', data)
   })
-}
+};
 
 /* verifying user twitter tokens */
 TwitterService.validatingTwitterTokens = function (token, tokenSecret, callback) {
   /* building client */
-  let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+  let client = TwitterService.buildTwitterConfig(token, tokenSecret);
 
   /* checking token from twitter */
   client.get('account/verify_credentials', function (error, user) {
     if (error) {
-      console.log('twitter error ', error, error[0], error[0].code)
+      console.log('twitter error ', error, error[0], error[0].code);
       return callback(true, error[0], 'Error while validating twitter token', null)
     }
     // console.log("twitter data ", user)
     return callback(null, null, null, user)
   });
-}
+};
 
 /* post sample tweet or send reply to status*/
 /* paramerters twitterText(must include user mention) and inReplyToStatusId (id_str of tweet) */
 TwitterService.postTweet = function (apiRequest, apiResponse) {
   /* getting user id */
-  let userId = apiRequest.user._id ? apiRequest.user._id : null
+  let userId = apiRequest.user._id ? apiRequest.user._id : null;
 
   /* checking required fields */
   if (!userId) {
@@ -828,10 +828,10 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
   }
 
   /* getting post related data */
-  let twitterText = apiRequest.body.twitterText ? apiRequest.body.twitterText : null
-  let inReplyToStatusId = apiRequest.body.inReplyToStatusId ? '' + apiRequest.body.inReplyToStatusId : null
+  let twitterText = apiRequest.body.twitterText ? apiRequest.body.twitterText : null;
+  let inReplyToStatusId = apiRequest.body.inReplyToStatusId ? '' + apiRequest.body.inReplyToStatusId : null;
 
-  console.log(twitterText, inReplyToStatusId)
+  console.log(twitterText, inReplyToStatusId);
 
   if (!twitterText || !inReplyToStatusId) {
     return apiResponse.status(422).send({
@@ -844,7 +844,7 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
   /* preparing query */
   let query = {
     userId: mongoose.Types.ObjectId(userId)
-  }
+  };
 
   /* getting twitter token details into database */
   TwitterTokenDetailsModel.findOne(query, function (error, data) {
@@ -864,16 +864,16 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
       })
     }
 
-    let token = data.token
-    let tokenSecret = data.tokenSecret
+    let token = data.token;
+    let tokenSecret = data.tokenSecret;
 
     /* checking token validation */
     TwitterService.validatingTwitterTokens(token, tokenSecret, function (validatingError, validatingErrorCode, validatedmessage, validatedTokenData) {
       if (validatingError) {
-        console.log('ss ', validatingErrorCode, typeof (validatingErrorCode.code), validatingErrorCode.code)
+        console.log('ss ', validatingErrorCode, typeof (validatingErrorCode.code), validatingErrorCode.code);
         if (validatingErrorCode.code === 89) {
           /* insert into database as invalid tokens.. need to re login*/
-          data.status = false
+          data.status = false;
           return data.save(function (twitterTokenInsertError, twitterInsertData) {
             return apiResponse.status(400).send({
               statusCode: 'TWITTER-TOKEN-ERROR',
@@ -891,13 +891,13 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
       }
 
       /* getting client config */
-      let client = TwitterService.buildTwitterConfig(token, tokenSecret)
+      let client = TwitterService.buildTwitterConfig(token, tokenSecret);
 
       /* adjusting parameters */
       let parameters = {
         status: twitterText,
         in_reply_to_status_id: inReplyToStatusId
-      }
+      };
 
       client.post('statuses/update', parameters, function (tweetPostError, tweetPostData) {
         if (tweetPostError) {
@@ -908,11 +908,11 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
           })
         }
 
-        console.log('tweet post data ', tweetPostError)
-        let newTweetPostData = []
+        console.log('tweet post data ', tweetPostError);
+        let newTweetPostData = [];
         /* adjusting data */
-        tweetPostData.full_text = tweetPostData.full_text ? tweetPostData.full_text : twitterText
-        newTweetPostData.push(tweetPostData)
+        tweetPostData.full_text = tweetPostData.full_text ? tweetPostData.full_text : twitterText;
+        newTweetPostData.push(tweetPostData);
 
         /* inserting tweet into database */
         TwitterService.insertMentionsIntoDatabase(userId, newTweetPostData, inReplyToStatusId, function (tweetPostError, tweetPostMessage, tweetPostData) {
@@ -934,12 +934,12 @@ TwitterService.postTweet = function (apiRequest, apiResponse) {
 
     })
   })
-}
+};
 
 /* checking twitter account connected or not */
 TwitterService.checkATwitterAccountConnectedOrNot = function (apiRequest, apiResponse) {
   /* getting user id */
-  let userId = apiRequest.user._id ? apiRequest.user._id : null
+  let userId = apiRequest.user._id ? apiRequest.user._id : null;
 
   /* checking required fields */
   if (!userId) {
@@ -953,7 +953,7 @@ TwitterService.checkATwitterAccountConnectedOrNot = function (apiRequest, apiRes
   /* preparing query */
   let query = {
     userId: userId
-  }
+  };
 
   /* getting data from database */
   /* getting twitter token details into database */
@@ -989,23 +989,23 @@ TwitterService.checkATwitterAccountConnectedOrNot = function (apiRequest, apiRes
       data: {}
     })
   })
-}
+};
 
-/* 
+/*
   webhook related
  */
 
 /* register twitter web hook */
 TwitterService.registerTwitterWebhook = function (apiRequest, apiResponse) {
   /* required fields */
-  let oauthConsumerKey = config.twitter.consumerKey
-  let oauthNonce = oauth_nonce()
-  let oauthSignature = config.twitter.consumerSecret + '%26' + config.twitter.oauth.tokenSecret
-  let oauthToken = config.twitter.oauth.token
+  let oauthConsumerKey = config.twitter.consumerKey;
+  let oauthNonce = oauth_nonce();
+  let oauthSignature = config.twitter.consumerSecret + '%26' + config.twitter.oauth.tokenSecret;
+  let oauthToken = config.twitter.oauth.token;
 
   var headers = {
     'authorization': 'OAuth oauth_consumer_key="' + oauthConsumerKey + '", oauth_nonce="' + oauthNonce + ' ", oauth_signature="' + oauthSignature + '", oauth_signature_method="HMAC-SHA1", oauth_timestamp="' + new Date().getTime() + '", oauth_token="' + oauthToken + ' , oauth_version=1.0'
-  }
+  };
 
   // console.log('headers ', headers)
 
@@ -1019,7 +1019,7 @@ TwitterService.registerTwitterWebhook = function (apiRequest, apiResponse) {
     // console.log(body)
     // console.log('----')
   })
-}
+};
 
 /* register twitter web hook */
 TwitterService.registerTwitterWebhook2 = function (apiRequest, apiResponse) {
@@ -1029,13 +1029,13 @@ TwitterService.registerTwitterWebhook2 = function (apiRequest, apiResponse) {
     consumer_secret: config.twitter.consumerSecret,
     token: config.twitter.tempToken,
     token_secret: config.twitter.tempTokenSecret
-  }
+  };
 
   // console.log('twitter oatu ', twitterOauth)
 
-  let WEBHOOK_URL = 'https://rich-panel-task.herokuapp.com/webhooks/twitter'
+  let WEBHOOK_URL = 'https://rich-panel-task.herokuapp.com/webhooks/twitter';
 
-  console.log('in 2 nd call')
+  console.log('in 2 nd call');
   // request options
   let requestOptions = {
     url: 'https://api.twitter.com/1.1/account_activity/all/production/webhooks.json',
@@ -1046,11 +1046,11 @@ TwitterService.registerTwitterWebhook2 = function (apiRequest, apiResponse) {
     form: {
       url: WEBHOOK_URL
     }
-  }
+  };
 
   // POST request to create webhook config
   request.post(requestOptions, function (error, response, body) {
-    console.log('-->', body)
+    console.log('-->', body);
     return apiResponse.send({
       statusCode: 'SUCCESS',
       message: 'success',
@@ -1059,7 +1059,7 @@ TwitterService.registerTwitterWebhook2 = function (apiRequest, apiResponse) {
       }
     })
   })
-}
+};
 
 /* getting webhook config */
 TwitterService.getWebhookConfig = function (apiRequest, apiResponse) {
@@ -1069,24 +1069,24 @@ TwitterService.getWebhookConfig = function (apiRequest, apiResponse) {
     consumer_secret: config.twitter.consumerSecret,
     token: config.twitter.tempToken,
     token_secret: config.twitter.tempTokenSecret
-  }
+  };
 
   // request options
   var request_options = {
     url: 'https://api.twitter.com/1.1/account_activity/all/production/webhooks.json',
     oauth: twitterOauth
-  }
+  };
 
   // GET request to retreive webhook config
   request.get(request_options, function (error, response, body) {
-    console.log(response.statusCode)
-    console.log(body)
+    console.log(response.statusCode);
+    console.log(body);
     return apiResponse.send({
       message: 'succesfully get config',
       data: body
     })
   })
-}
+};
 
 /* getting twitter webhook subscriptions */
 TwitterService.getWebhookSubscriptions = function (apiRequest, apiResponse) {
@@ -1096,12 +1096,12 @@ TwitterService.getWebhookSubscriptions = function (apiRequest, apiResponse) {
     consumer_secret: config.twitter.consumerSecret,
     token: config.twitter.tempToken,
     token_secret: config.twitter.tempTokenSecret
-  }
+  };
 
   /* getting twitter bearer token */
   TwitterService.getTwitterBearerToken(function (error, message, data) {
 
-    console.log('bearer token data ', message, data)
+    console.log('bearer token data ', message, data);
 
     // request options
     var request_options = {
@@ -1109,12 +1109,12 @@ TwitterService.getWebhookSubscriptions = function (apiRequest, apiResponse) {
       auth: {
         'bearer': data
       }
-    }
+    };
 
     // GET request to retreive webhook config
     request.get(request_options, function (error, response, body) {
-      console.log(response.statusCode)
-      console.log(body)
+      console.log(response.statusCode);
+      console.log(body);
       return apiResponse.send({
         statusCode: 'SUCCESS',
         message: 'succesfully get subscriptions',
@@ -1122,14 +1122,14 @@ TwitterService.getWebhookSubscriptions = function (apiRequest, apiResponse) {
       })
     })
   })
-}
+};
 
 /* validate config */
 TwitterService.validateTwitterWebhookConfig = function (apiRequest, apiResponse) {
   /* getting twitter bearer token */
   TwitterService.getTwitterBearerToken(function (error, message, data) {
 
-    console.log('bearer token data ', message, data)
+    console.log('bearer token data ', message, data);
 
     // request options
     var request_options = {
@@ -1137,12 +1137,12 @@ TwitterService.validateTwitterWebhookConfig = function (apiRequest, apiResponse)
       auth: {
         'bearer': data
       }
-    }
+    };
 
     // PUT request to retreive webhook config
     request.put(request_options, function (error, response) {
 
-      console.log('dfdfd ', response)
+      console.log('dfdfd ', response);
 
       return apiResponse.send({
         data: response
@@ -1150,7 +1150,7 @@ TwitterService.validateTwitterWebhookConfig = function (apiRequest, apiResponse)
     })
 
   })
-}
+};
 
 /* get bearer token for twitter webhook */
 TwitterService.getTwitterBearerToken = function (callback) {
@@ -1170,34 +1170,34 @@ TwitterService.getTwitterBearerToken = function (callback) {
     form: {
       'grant_type': 'client_credentials'
     }
-  }
+  };
 
 
   request(request_options, function (error, response) {
     if (error) {
       return callback(error, 'Error while getting bearer token', null)
     } else {
-      let json_body = JSON.parse(response.body)
-      console.log("Bearer Token:", json_body.access_token)
-      twitterBearerToken = json_body.access_token
+      let json_body = JSON.parse(response.body);
+      console.log("Bearer Token:", json_body.access_token);
+      twitterBearerToken = json_body.access_token;
       return callback(null, 'successfully get data', twitterBearerToken)
     }
   })
-}
+};
 
 /* Listen to webhook of a twitter */
 TwitterService.twitterWebhookListen = function (apiRequest, apiResponse) {
-  console.log('\n$$$$\n getting data from twitter webhooks \n')
+  console.log('\n$$$$\n getting data from twitter webhooks \n');
 
   return apiResponse.status(200).send({
     message: 'done'
   })
-}
+};
 
 /* Listen to webhook of a twitter */
 TwitterService.twitterWebhookSecureChanllange = function (apiRequest, apiResponse) {
-  console.log('\n$$$$\n getting data from twitter webhooks \n')
-  let crcToken = apiRequest.query.crc_token
+  console.log('\n$$$$\n getting data from twitter webhooks \n');
+  let crcToken = apiRequest.query.crc_token;
   if (!crcToken) {
     return apiResponse.status(422).send({
       statusCode: 'MISSED-REQUIRED-FIELDS',
@@ -1206,12 +1206,12 @@ TwitterService.twitterWebhookSecureChanllange = function (apiRequest, apiRespons
     })
   }
 
-  console.log('entered crc token ', crcToken)
+  console.log('entered crc token ', crcToken);
 
   return apiResponse.status(200).send({
     response_token: TwitterService.getChallengeResponse(config.twitter.consumerSecret, crcToken)
   })
-}
+};
 
 /* build twitter config */
 TwitterService.buildTwitterConfig = function (token, tokenSecret) {
@@ -1221,19 +1221,19 @@ TwitterService.buildTwitterConfig = function (token, tokenSecret) {
     consumer_secret: config.twitter.consumerSecret,
     access_token_key: token,
     access_token_secret: tokenSecret
-  }
+  };
 
   let client = new twitter(twitterConfig);
 
   return client
-}
+};
 
 /* hmac key generation for twitter challenge */
 TwitterService.getChallengeResponse = function (consumerSecret, crcToken) {
   /* generating hmac */
-  let hmac = 'sha256=' + crypto.createHmac('sha256', consumerSecret).update(crcToken).digest('base64')
+  let hmac = 'sha256=' + crypto.createHmac('sha256', consumerSecret).update(crcToken).digest('base64');
   return hmac
-}
+};
 
 /* twitter login with oauth */
 TwitterService.twitterLogin = function (apiRequest, apiResponse) {
@@ -1248,11 +1248,11 @@ TwitterService.twitterLogin = function (apiRequest, apiResponse) {
       apiRequest.session.oauth.token = oauth_token;
       apiRequest.session.oauth.token_secret = oauth_token_secret;
 
-      console.log('----> oauth data in session ', apiRequest.session.oauth)
+      console.log('----> oauth data in session ', apiRequest.session.oauth);
       return apiResponse.redirect('https://twitter.com/oauth/authenticate?oauth_token=' + oauth_token)
     }
   });
-}
+};
 
 /* twitter login callback with oauth */
 TwitterService.twitterLoginCallback = function (apiRequest, apiResponse) {
@@ -1275,12 +1275,12 @@ TwitterService.twitterLoginCallback = function (apiRequest, apiResponse) {
   } else {
     apiResponse.send("error while authenticating twitter.");
   }
-}
+};
 
 /* cron job */
 /* Getting tweets from twitter cron */
 TwitterService.getTwitterMentionsUserWiseCron = function (callback) {
-  console.log('in twitter cron')
+  console.log('in twitter cron');
   /* getting twitter account details */
   TwitterTokenDetailsModel.find({
     status: true
@@ -1291,24 +1291,24 @@ TwitterService.getTwitterMentionsUserWiseCron = function (callback) {
 
       /* getting mentions */
       data.forEach((element) => {
-        let client = TwitterService.buildTwitterConfig(element.token, element.tokenSecret)
+        let client = TwitterService.buildTwitterConfig(element.token, element.tokenSecret);
 
         /* adjusting parameters for getting mentions*/
         let parameters = {
           tweet_mode: 'extended',
           count: 200
-        }
+        };
 
         /* adding since_id */
         if (element.lastSinceId) {
           parameters.since_id = element.lastSinceId
         }
 
-        console.log('params ', parameters)
+        console.log('params ', parameters);
 
         /* getting mentions */
         client.get('statuses/mentions_timeline', parameters, function (error, mentionsData) {
-          console.log('new params ', parameters)
+          console.log('new params ', parameters);
           // console.log('get data', mentionsData.length)
           if (error) {
             return callback(error, {})
@@ -1320,10 +1320,10 @@ TwitterService.getTwitterMentionsUserWiseCron = function (callback) {
                 /* saving last since id */
                 let q = {
                   userId: mongoose.Types.ObjectId(element.userId)
-                }
+                };
                 let updateQuery = {
                   lastSinceId: mentionsData[0].id
-                }
+                };
                 TwitterTokenDetailsModel.findOneAndUpdate(q, updateQuery, function (newError, newMsg, newData) {
                   if (newError) {
                     return callback(newError, {})
@@ -1334,12 +1334,12 @@ TwitterService.getTwitterMentionsUserWiseCron = function (callback) {
                       if (!newData || !newData.length) {
                         return callback(true, {})
                       }
-                      let newMentions = []
+                      let newMentions = [];
                       newData.forEach((element) => {
                         if (!element['in_reply_to_status_id']) {
                           newMentions.push(element)
                         }
-                      })
+                      });
                       return callback(false, newMentions)
                     }
                   }
@@ -1351,4 +1351,4 @@ TwitterService.getTwitterMentionsUserWiseCron = function (callback) {
       })
     }
   })
-}
+};

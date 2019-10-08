@@ -2,7 +2,7 @@
   "serverPort": 3333,
   "jwtSecret": "richP@nelT@sk#323",
   "mongodb": {
-    "uri": "mongodb://localhost:27017/rich-panel-task"
+    "uri": "mongodb+srv://yusufjk:yjk@1996@twitterhelpdesk-p09bm.gcp.mongodb.net/admin?retryWrites=true&w=majority"
   },
   "twitter": {
     "consumerKey": "X5lm1rk9ZW6IFSH6ZAVSTvxI2",

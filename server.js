@@ -114,7 +114,7 @@ const options = {
 mongoose.set('debug', false);
 
 mongoose.connect(config.mongodb.uri, options)
-  .then(() => console.log('mongoose connection successful'))
+  .then(() => console.log('mongoose connection on ' + config.mongodb.uri + ' successful'))
   .catch((err) => console.error(err));
 
 const db = mongoose.connection;
