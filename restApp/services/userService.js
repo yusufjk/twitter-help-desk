@@ -1,27 +1,27 @@
-'use strict'
+'use strict';
 
-/* 
-    User service include user login and registraion related functions 
+/*
+    User service include user login and registration related functions
 */
 
 /* requiring models */
-var UsersModel = require('./../models/usersModel')
+var UsersModel = require('./../models/usersModel');
 
-/* requring utilites */
-var CommonUtilities = require('./../utilities/commonUtilities')
+/* requiring utilities */
+var CommonUtilities = require('./../utilities/commonUtilities');
 
-var UserService = module.exports
+var UserService = module.exports;
 
 /* registering */
 UserService.register = function (apiRequest, apiResponse) {
   /* debugging purpose */
-  console.log('user details ', apiRequest.body)
+  console.log('user details ', apiRequest.body);
 
   /* getting user details */
-  let email = apiRequest.body.email ? apiRequest.body.email : null
-  let name = apiRequest.body.name ? apiRequest.body.name : null
-  let password = apiRequest.body.password ? apiRequest.body.password : null
-  let confirmPassword = apiRequest.body.confirmPassword ? apiRequest.body.confirmPassword : null
+  let email = apiRequest.body.email ? apiRequest.body.email : null;
+  let name = apiRequest.body.name ? apiRequest.body.name : null;
+  let password = apiRequest.body.password ? apiRequest.body.password : null;
+  let confirmPassword = apiRequest.body.confirmPassword ? apiRequest.body.confirmPassword : null;
 
   /* checking required fields */
   if (!email || !name || !password || !confirmPassword) {
@@ -44,7 +44,7 @@ UserService.register = function (apiRequest, apiResponse) {
   /* query to check user existed or not */
   let userExistsCheckQuery = {
     email: email
-  }
+  };
 
   /* checking users existed or not in database */
   UserService.getUserDetailsByQuery(userExistsCheckQuery, {}).then((data) => {
@@ -62,18 +62,18 @@ UserService.register = function (apiRequest, apiResponse) {
     let userDetails = {
       email: email,
       name: name
-    }
+    };
 
     /* creating new user model */
-    let newUserData = new UsersModel(userDetails)
+    let newUserData = new UsersModel(userDetails);
 
     /* generating hash password and inserting into new user data */
-    newUserData.password = newUserData.generateHash(password)
+    newUserData.password = newUserData.generateHash(password);
 
     /* storing into database */
     newUserData.save(userDetails, function (error, data) {
       if (error) {
-        console.log('error ', error)
+        console.log('error ', error);
         return apiResponse.status(500).send({
           statusCode: 'INTERNAL-SERVER-ERROR',
           message: 'Internal server error occured. Please try again after some time.',
@@ -84,26 +84,26 @@ UserService.register = function (apiRequest, apiResponse) {
       /* successfully registered */
       return apiResponse.status(200).send({
         statusCode: 'SUCCESS',
-        message: 'Successfully registserd user',
+        message: 'Successfully registered user',
         data: {}
       })
     })
   }).catch((error) => {
-    console.log('error ', error)
+    console.log('error ', error);
     return apiResponse.status(500).send({
       statusCode: 'INTERNAL-SERVER-ERROR',
       message: 'Internal server error occured. Please try again after some time.',
       data: {}
     })
   })
-}
+};
 
 /* login checking */
 UserService.login = function (apiRequest, apiResponse) {
-  console.log('in login function')
+  console.log('in login function');
   /* getting user credentials */
-  let email = apiRequest.query.email ? apiRequest.query.email : null
-  let password = apiRequest.query.password ? apiRequest.query.password : null
+  let email = apiRequest.query.email ? apiRequest.query.email : null;
+  let password = apiRequest.query.password ? apiRequest.query.password : null;
 
   /* checking require fields */
   if (!email || !password) {
@@ -117,7 +117,7 @@ UserService.login = function (apiRequest, apiResponse) {
   /* preparing query */
   let query = {
     email: email
-  }
+  };
 
   /* checking into database */
   UserService.getUserDetailsByQuery(query, {}).then((data) => {
@@ -145,18 +145,18 @@ UserService.login = function (apiRequest, apiResponse) {
     let payloadForToken = {
       _id: data._id,
       expiry_date: new Date().getTime() + (7 * 24 * 60 * 60 * 1000) // 7 days expiry data
-    }
+    };
 
     /* preparing result data */
-    let resultData = {}
-    resultData.token = CommonUtilities.generateJwtToken(payloadForToken)
+    let resultData = {};
+    resultData.token = CommonUtilities.generateJwtToken(payloadForToken);
 
     let cookieOptions = {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true
-    }
+    };
     /* setting cookie */
-    apiResponse.cookie('authToken', resultData.token)
+    apiResponse.cookie('authToken', resultData.token);
 
     return apiResponse.status(200).send({
       statusCode: 'SUCCESS',
@@ -170,7 +170,7 @@ UserService.login = function (apiRequest, apiResponse) {
       data: {}
     })
   })
-}
+};
 
 /* getting user details */
 UserService.getUserDetails = function (apiRequest, apiResponse) {
@@ -179,7 +179,7 @@ UserService.getUserDetails = function (apiRequest, apiResponse) {
   // console.log('logged user data ', apiRequest.user)
 
   /* getting user id from token */
-  let _id = apiRequest.user._id ? apiRequest.user._id : null
+  let _id = apiRequest.user._id ? apiRequest.user._id : null;
 
   if (!_id) {
     return apiResponse.status(400).send({
@@ -192,7 +192,7 @@ UserService.getUserDetails = function (apiRequest, apiResponse) {
   /* preparing query */
   let query = {
     _id: _id
-  }
+  };
 
   /* adjusting project fields */
   let projectFields = {
@@ -200,7 +200,7 @@ UserService.getUserDetails = function (apiRequest, apiResponse) {
     name: 1,
     email: 1,
     createdDate: 1
-  }
+  };
 
   /* getting data from database */
   UserService.getUserDetailsByQuery(query, projectFields).then((data) => {
@@ -216,16 +216,16 @@ UserService.getUserDetails = function (apiRequest, apiResponse) {
       data: {}
     })
   })
-}
+};
 
 /* get user details by query and project fields */
-/* 
+/*
   query object required
-  projectFeilds object optional
+  projectFields object optional
 */
 UserService.getUserDetailsByQuery = function (query, projectFields) {
   /* adjusting parameters */
-  projectFields = projectFields ? projectFields : {}
+  projectFields = projectFields ? projectFields : {};
 
   /* getting data from database */
   return new Promise(function (resolve, reject) {
@@ -237,4 +237,4 @@ UserService.getUserDetailsByQuery = function (query, projectFields) {
         reject(error)
       })
   })
-}
+};

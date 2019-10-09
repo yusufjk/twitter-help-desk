@@ -32,7 +32,7 @@ var oa = new OAuth(
   config.twitter.consumerKey,
   config.twitter.consumerSecret,
   "1.0",
-  config.twitter.twitterCallbackUrl,
+  "https://twitter-desk-yusufjk.herokuapp.com/auth/twitter/callback2",
   "HMAC-SHA1"
 );
 
@@ -368,8 +368,6 @@ TwitterService.getMentionsFromTwitterForSocket = function (userId, callback) {
           /* setting status to false */
           data.status = false;
           console.log('error 1');
-          /* insert into database as invalid tokens.. need to re login*/
-          // data.save({ userId: userId }, { $set: { status: false } }, function (twitterTokenInsertError, twitterInsertData) {
           return data.save(function (twitterTokenInsertError, twitterInsertData) {
             console.log('error 2', twitterTokenInsertError);
 
@@ -1241,7 +1239,7 @@ TwitterService.twitterLogin = function (apiRequest, apiResponse) {
     if (error) {
       console.log(error);
       return apiResponse.send({
-        message: "yeah no. didn't work."
+        message: "Error while logging in to twitter"
       })
     } else {
       apiRequest.session.oauth = {};

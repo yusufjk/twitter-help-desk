@@ -165,7 +165,7 @@
 
               </div>
               <div
-                [ngClass]="{'others-messages-date': inReplyUserScreenName == mention.user.screen_name , 'self-messages-date':inReplyUserScreenName != mention.user.screen_name }"
+                [ngClass]="{'others-messages-date': userData.screen_name !== mention.user.screen_name , 'self-messages-date':userData.screen_name === mention.user.screen_name }"
                 style="display: flex">
                 <div class="avatar" style="visibility: hidden;">
                   <img class="profile-pic2" height="33.5px" img-cache img-cache-src
