@@ -39,7 +39,7 @@
     "express-session": "^1.15.6",
     "gulp": "^4.0.0",
     "helmet": "^3.15.0",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.7.3",
     "ng-imgcache": "^1.0.1",
