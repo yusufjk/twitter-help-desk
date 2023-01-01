@@ -29,7 +29,7 @@
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.2.1",
-    "config": "^3.0.1",
+    "config": "^3.3.8",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "cors": "^2.8.5",
@@ -62,7 +62,7 @@
     "node": "^8.9.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.12.2",
+    "@angular-devkit/build-angular": "^15.0.4",
     "@angular/cli": "^7.2.2",
     "@angular/compiler-cli": "^7.2.1",
     "@angular/language-service": "^7.2.1",
